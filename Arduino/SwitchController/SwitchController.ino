@@ -1,13 +1,13 @@
 #include <SwitchControlLibrary.h>
 
-enum class Control : uint8_t
+enum class ControlType : int
 {
   Button = 0,
   DPad,
   Stick,
 };
 
-enum class ButtonType : uint8_t
+enum class ButtonType : int
 {
   A = 0,
   B,
@@ -25,18 +25,13 @@ enum class ButtonType : uint8_t
   Capture,
 };
 
-enum class ButtonCommand : uint8_t
+enum class ButtonCommand : int
 {
   Press = 0,
   Release,
 };
 
-enum class DPadType : uint8_t
-{
-  Left = 0,
-};
-
-enum  class DPadCommand : uint8_t
+enum  class DPadCommand : int
 {
   Up = 0,
   UpLeft,
@@ -49,7 +44,7 @@ enum  class DPadCommand : uint8_t
   Center,
 };
 
-enum class StickType : uint8_t
+enum class StickType : int
 {
   Left = 0,
   Right,
@@ -67,111 +62,114 @@ void setup()
     delay(500);
   }
 
-  // Serial1.begin(115200);
-  Serial.begin(115200);
+  Serial1.begin(115200);
 }
 
 void loop()
 {
-  if (!Serial.available())
+  if (Serial1.available() <= 0)
   {
     return;
   }
 
-  switch ((Control)ReadSerial())
+  int control = ReadSerial();
+  switch (control)
   {
-    case Control::Button:
-      DoButtonCommand((ButtonType)ReadSerial(), (ButtonCommand)ReadSerial());
+    case (int)ControlType::Button:
+      int button = ReadSerial();
+      int buttonCommand = ReadSerial();
+      DoButtonCommand(button, buttonCommand);
       return;
-    case Control::DPad:
-      DoDPadCommand((DPadType)ReadSerial(), (DPadCommand)ReadSerial());
+    case (int)ControlType::DPad:
+      int dPadCommand = ReadSerial();
+      DoDPadCommand(dPadCommand);
       return;
-    case Control::Stick:
-      DoStickCommand((StickType)ReadSerial(), ReadSerial(), ReadSerial());
+    case (int)ControlType::Stick:
+      int stick = ReadSerial();
+      int x = ReadSerial();
+      int y = ReadSerial();
+      DoStickCommand(stick, x, y);
       return;
     default:
       break;
   }
 }
 
-uint8_t ReadSerial()
+int ReadSerial()
 {
-  while (!Serial.available()) {}
-  return (uint8_t)Serial.read();
+  while (Serial1.available() <= 0) {}
+  return Serial1.read();
 }
 
-void DoButtonCommand(ButtonType button, ButtonCommand command)
+void DoButtonCommand(int button, int command)
 {
-  if (command == ButtonCommand::Press)
+  switch (command)
   {
-    PressButton(button);
-    return;
-  }
-  if (command == ButtonCommand::Release)
-  {
-    ReleaseButton(button);
-    return;
-  }
-}
-
-void DoDPadCommand(DPadType dPad, DPadCommand command)
-{
-  if (dPad == DPadType::Left)
-  {
-    MoveDPad(command);
-    return;
+    case (int)ButtonCommand::Press:
+      PressButton(button);
+      return;
+    case (int)ButtonCommand::Release:
+      ReleaseButton(button);
+      return;
+    default:
+      break;
   }
 }
 
-void DoStickCommand(StickType stick, uint8_t x, uint8_t y)
+void DoDPadCommand(int command)
+{
+  MoveDPad(command);
+}
+
+void DoStickCommand(int stick, int x, int y)
 {
   MoveStick(stick, x, y);
 }
 
-void PressButton(ButtonType button)
+void PressButton(int button)
 {
   switch (button)
   {
-    case ButtonType::A:
+    case (int)ButtonType::A:
       SwitchControlLibrary().PressButtonA();
       return;
-    case ButtonType::B:
+    case (int)ButtonType::B:
       SwitchControlLibrary().PressButtonB();
       return;
-    case ButtonType::X:
+    case (int)ButtonType::X:
       SwitchControlLibrary().PressButtonX();
       return;
-    case ButtonType::Y:
+    case (int)ButtonType::Y:
       SwitchControlLibrary().PressButtonY();
       return;
-    case ButtonType::L:
+    case (int)ButtonType::L:
       SwitchControlLibrary().PressButtonL();
       return;
-    case ButtonType::R:
+    case (int)ButtonType::R:
       SwitchControlLibrary().PressButtonR();
       return;
-    case ButtonType::ZL:
+    case (int)ButtonType::ZL:
       SwitchControlLibrary().PressButtonZL();
       return;
-    case ButtonType::ZR:
+    case (int)ButtonType::ZR:
       SwitchControlLibrary().PressButtonZR();
       return;
-    case ButtonType::Minus:
+    case (int)ButtonType::Minus:
       SwitchControlLibrary().PressButtonMinus();
       return;
-    case ButtonType::Plus:
+    case (int)ButtonType::Plus:
       SwitchControlLibrary().PressButtonPlus();
       return;
-    case ButtonType::LeftStick:
+    case (int)ButtonType::LeftStick:
       SwitchControlLibrary().PressButtonLClick();
       return;
-    case ButtonType::RightStick:
+    case (int)ButtonType::RightStick:
       SwitchControlLibrary().PressButtonRClick();
       return;
-    case ButtonType::Home:
+    case (int)ButtonType::Home:
       SwitchControlLibrary().PressButtonHome();
       return;
-    case ButtonType::Capture:
+    case (int)ButtonType::Capture:
       SwitchControlLibrary().PressButtonCapture();
       return;
     default:
@@ -179,50 +177,50 @@ void PressButton(ButtonType button)
   }
 }
 
-void ReleaseButton(ButtonType button)
+void ReleaseButton(int button)
 {
   switch (button)
   {
-    case ButtonType::A:
+    case (int)ButtonType::A:
       SwitchControlLibrary().ReleaseButtonA();
       return;
-    case ButtonType::B:
+    case (int)ButtonType::B:
       SwitchControlLibrary().ReleaseButtonB();
       return;
-    case ButtonType::X:
+    case (int)ButtonType::X:
       SwitchControlLibrary().ReleaseButtonX();
       return;
-    case ButtonType::Y:
+    case (int)ButtonType::Y:
       SwitchControlLibrary().ReleaseButtonY();
       return;
-    case ButtonType::L:
+    case (int)ButtonType::L:
       SwitchControlLibrary().ReleaseButtonL();
       return;
-    case ButtonType::R:
+    case (int)ButtonType::R:
       SwitchControlLibrary().ReleaseButtonR();
       return;
-    case ButtonType::ZL:
+    case (int)ButtonType::ZL:
       SwitchControlLibrary().ReleaseButtonZL();
       return;
-    case ButtonType::ZR:
+    case (int)ButtonType::ZR:
       SwitchControlLibrary().ReleaseButtonZR();
       return;
-    case ButtonType::Minus:
+    case (int)ButtonType::Minus:
       SwitchControlLibrary().ReleaseButtonMinus();
       return;
-    case ButtonType::Plus:
+    case (int)ButtonType::Plus:
       SwitchControlLibrary().ReleaseButtonPlus();
       return;
-    case ButtonType::LeftStick:
+    case (int)ButtonType::LeftStick:
       SwitchControlLibrary().ReleaseButtonLClick();
       return;
-    case ButtonType::RightStick:
+    case (int)ButtonType::RightStick:
       SwitchControlLibrary().ReleaseButtonRClick();
       return;
-    case ButtonType::Home:
+    case (int)ButtonType::Home:
       SwitchControlLibrary().ReleaseButtonHome();
       return;
-    case ButtonType::Capture:
+    case (int)ButtonType::Capture:
       SwitchControlLibrary().ReleaseButtonCapture();
       return;
     default:
@@ -230,32 +228,32 @@ void ReleaseButton(ButtonType button)
   }
 }
 
-void MoveDPad(DPadCommand command)
+void MoveDPad(int command)
 {
-  SwitchControlLibrary().MoveHat(DPadCommandToHat(command));
+  SwitchControlLibrary().MoveHat(ToHat(command));
 }
 
-uint8_t DPadCommandToHat(DPadCommand command)
+uint8_t ToHat(int command)
 {
   switch (command)
   {
-    case DPadCommand::Up:
+    case (int)DPadCommand::Up:
       return (uint8_t)Hat::TOP;
-    case DPadCommand::UpLeft:
+    case (int)DPadCommand::UpLeft:
       return (uint8_t)Hat::TOP_LEFT;
-    case DPadCommand::Left:
+    case (int)DPadCommand::Left:
       return (uint8_t)Hat::LEFT;
-    case DPadCommand::DownLeft:
+    case (int)DPadCommand::DownLeft:
       return (uint8_t)Hat::BOTTOM_LEFT;
-    case DPadCommand::Down:
+    case (int)DPadCommand::Down:
       return (uint8_t)Hat::BOTTOM;
-    case DPadCommand::DownRight:
+    case (int)DPadCommand::DownRight:
       return (uint8_t)Hat::BOTTOM_RIGHT;
-    case DPadCommand::Right:
+    case (int)DPadCommand::Right:
       return (uint8_t)Hat::RIGHT;
-    case DPadCommand::UpRight:
+    case (int)DPadCommand::UpRight:
       return (uint8_t)Hat::TOP_RIGHT;
-    case DPadCommand::Center:
+    case (int)DPadCommand::Center:
       return (uint8_t)Hat::CENTER;
     default:
       break;
@@ -263,14 +261,14 @@ uint8_t DPadCommandToHat(DPadCommand command)
   return (uint8_t)Hat::CENTER;
 }
 
-void MoveStick(StickType stick, uint8_t x, uint8_t y)
+void MoveStick(int stick, int x, int y)
 {
   switch (stick)
   {
-    case StickType::Left:
+    case (int)StickType::Left:
       SwitchControlLibrary().MoveLeftStick(x, y);
       return;
-    case StickType::Right:
+    case (int)StickType::Right:
       SwitchControlLibrary().MoveRightStick(x, y);
       return;
     default:
