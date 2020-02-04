@@ -94,27 +94,6 @@ void loop()
     DoStickCommand(stick, x, y);
     return;
   }
-
-  //  switch (control)
-  //  {
-  //    case (int)ControlType::Button:
-  //      int button = ReadSerial();
-  //      int buttonCommand = ReadSerial();
-  //      DoButtonCommand(button, buttonCommand);
-  //      return;
-  //    case (int)ControlType::DPad:
-  //      int dPadCommand = ReadSerial();
-  //      DoDPadCommand(dPadCommand);
-  //      return;
-  //    case (int)ControlType::Stick:
-  //      int stick = ReadSerial();
-  //      int x = ReadSerial();
-  //      int y = ReadSerial();
-  //      DoStickCommand(stick, x, y);
-  //      return;
-  //    default:
-  //      break;
-  //  }
 }
 
 int ReadSerial()
