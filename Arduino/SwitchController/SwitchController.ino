@@ -73,26 +73,48 @@ void loop()
   }
 
   int control = ReadSerial();
-  switch (control)
+  if (control == (int)ControlType::Button)
   {
-    case (int)ControlType::Button:
-      int button = ReadSerial();
-      int buttonCommand = ReadSerial();
-      DoButtonCommand(button, buttonCommand);
-      return;
-    case (int)ControlType::DPad:
-      int dPadCommand = ReadSerial();
-      DoDPadCommand(dPadCommand);
-      return;
-    case (int)ControlType::Stick:
-      int stick = ReadSerial();
-      int x = ReadSerial();
-      int y = ReadSerial();
-      DoStickCommand(stick, x, y);
-      return;
-    default:
-      break;
+    int button = ReadSerial();
+    int buttonCommand = ReadSerial();
+    DoButtonCommand(button, buttonCommand);
+    return;
   }
+  else if (control == (int)ControlType::DPad)
+  {
+    int dPadCommand = ReadSerial();
+    DoDPadCommand(dPadCommand);
+    return;
+  }
+  else if (control == (int)ControlType::Stick)
+  {
+    int stick = ReadSerial();
+    int x = ReadSerial();
+    int y = ReadSerial();
+    DoStickCommand(stick, x, y);
+    return;
+  }
+
+  //  switch (control)
+  //  {
+  //    case (int)ControlType::Button:
+  //      int button = ReadSerial();
+  //      int buttonCommand = ReadSerial();
+  //      DoButtonCommand(button, buttonCommand);
+  //      return;
+  //    case (int)ControlType::DPad:
+  //      int dPadCommand = ReadSerial();
+  //      DoDPadCommand(dPadCommand);
+  //      return;
+  //    case (int)ControlType::Stick:
+  //      int stick = ReadSerial();
+  //      int x = ReadSerial();
+  //      int y = ReadSerial();
+  //      DoStickCommand(stick, x, y);
+  //      return;
+  //    default:
+  //      break;
+  //  }
 }
 
 int ReadSerial()
@@ -230,35 +252,36 @@ void ReleaseButton(int button)
 
 void MoveDPad(int command)
 {
-  SwitchControlLibrary().MoveHat(ToHat(command));
+  uint8_t hat = (uint8_t)ToHat(command);
+  SwitchControlLibrary().MoveHat(hat);
 }
 
-uint8_t ToHat(int command)
+Hat ToHat(int command)
 {
   switch (command)
   {
     case (int)DPadCommand::Up:
-      return (uint8_t)Hat::TOP;
+      return Hat::TOP;
     case (int)DPadCommand::UpLeft:
-      return (uint8_t)Hat::TOP_LEFT;
+      return Hat::TOP_LEFT;
     case (int)DPadCommand::Left:
-      return (uint8_t)Hat::LEFT;
+      return Hat::LEFT;
     case (int)DPadCommand::DownLeft:
-      return (uint8_t)Hat::BOTTOM_LEFT;
+      return Hat::BOTTOM_LEFT;
     case (int)DPadCommand::Down:
-      return (uint8_t)Hat::BOTTOM;
+      return Hat::BOTTOM;
     case (int)DPadCommand::DownRight:
-      return (uint8_t)Hat::BOTTOM_RIGHT;
+      return Hat::BOTTOM_RIGHT;
     case (int)DPadCommand::Right:
-      return (uint8_t)Hat::RIGHT;
+      return Hat::RIGHT;
     case (int)DPadCommand::UpRight:
-      return (uint8_t)Hat::TOP_RIGHT;
+      return Hat::TOP_RIGHT;
     case (int)DPadCommand::Center:
-      return (uint8_t)Hat::CENTER;
+      return Hat::CENTER;
     default:
       break;
   }
-  return (uint8_t)Hat::CENTER;
+  return Hat::CENTER;
 }
 
 void MoveStick(int stick, int x, int y)
