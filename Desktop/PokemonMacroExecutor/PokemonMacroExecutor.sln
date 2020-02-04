@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonMacroExecutor", "PokemonMacroExecutor\PokemonMacroExecutor.csproj", "{2B191783-987B-4DE4-952A-9E56E5F6745C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.SwitchControllerLib", "Sta.SwitchController\Sta.SwitchControllerLib.csproj", "{6EBC23AA-9CE6-4C65-A6EC-F61E8DE2D233}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B191783-987B-4DE4-952A-9E56E5F6745C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B191783-987B-4DE4-952A-9E56E5F6745C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B191783-987B-4DE4-952A-9E56E5F6745C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B191783-987B-4DE4-952A-9E56E5F6745C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBC23AA-9CE6-4C65-A6EC-F61E8DE2D233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBC23AA-9CE6-4C65-A6EC-F61E8DE2D233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBC23AA-9CE6-4C65-A6EC-F61E8DE2D233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBC23AA-9CE6-4C65-A6EC-F61E8DE2D233}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {056E406F-C1F7-4830-BA23-07164814A1D6}
+	EndGlobalSection
+EndGlobal
