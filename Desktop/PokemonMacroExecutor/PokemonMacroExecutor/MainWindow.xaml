@@ -34,12 +34,12 @@
             <Button Content="A" Width="64" Click="AButton_Click" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
-            <DatePicker x:Name="DateSelector" SelectedDateFormat="Long" DisplayDateStart="2000/1/1" DisplayDateEnd="2060/12/31"
+            <DatePicker x:Name="InitialDatePicker" SelectedDateFormat="Long" DisplayDateStart="2000/1/1" DisplayDateEnd="2060/12/31"
                         Width="128"/>
             <Label Content="+" VerticalAlignment="Center"/>
-            <TextBox x:Name="PlusDaysTextBox" Text="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="64"/>
+            <TextBox x:Name="IncrementalDaysTextBox" Text="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="64"/>
             <Label Content="days" VerticalAlignment="Center"/>
-            <Button x:Name="ExecutePlusDaysButton" Content="Execute" Width="64" Click="PlusDaysExecuteButton_Click" VerticalAlignment="Center"/>
+            <Button x:Name="IncreaseDateButton" Content="Execute" Width="64" Click="IncreaseDateButton_Click" VerticalAlignment="Center"/>
         </StackPanel>
     </StackPanel>
 </Window>

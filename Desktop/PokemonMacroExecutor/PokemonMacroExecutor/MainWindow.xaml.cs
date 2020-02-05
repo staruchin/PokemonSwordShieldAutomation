@@ -23,10 +23,13 @@ namespace Sta.PokemonMacroExecutor
     public partial class MainWindow : Window
     {
         private SwitchController m_controller = new SwitchController();
+        private Macro m_macro = null;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            m_macro = new Macro(m_controller);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -38,7 +41,7 @@ namespace Sta.PokemonMacroExecutor
                 Connect();
             }
 
-            DateSelector.SelectedDate = DateTime.Now;
+            InitialDatePicker.SelectedDate = DateTime.Now;
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -79,100 +82,27 @@ namespace Sta.PokemonMacroExecutor
             m_controller.PushB(50, 50);
         }
 
-        private async void PlusDaysExecuteButton_Click(object sender, RoutedEventArgs e)
+        private async void IncreaseDateButton_Click(object sender, RoutedEventArgs e)
         {
-            var date = DateSelector.SelectedDate;
+            var date = InitialDatePicker.SelectedDate;
             if (!date.HasValue)
             {
                 return;
             }
 
             int days = 0;
-            if (!int.TryParse(PlusDaysTextBox.Text, out days))
+            if (!int.TryParse(IncrementalDaysTextBox.Text, out days))
             {
                 return;
             }
 
-            DateSelector.IsEnabled = false;
-            PlusDaysTextBox.IsEnabled = false;
-            ExecutePlusDaysButton.IsEnabled = false;
-            await Task.Run(() => ExecutePlusDays(date.Value, days));
-            DateSelector.IsEnabled = true;
-            PlusDaysTextBox.IsEnabled = true;
-            ExecutePlusDaysButton.IsEnabled = true;
-        }
-
-        private void ExecutePlusDays(DateTime date, int days)
-        {
-            for (int i = 0; i < days; i++)
-            {
-                if (date.Year == 2060 && date.Month == 12 && date.Day == 31)
-                {
-                    return;
-                }
-
-                int previousYear = date.Year;
-
-                date += TimeSpan.FromDays(1);
-
-                if (previousYear < date.Year)
-                {
-                    // 日月年を変更
-                    m_controller.PushA(50, 125);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 125);
-                    continue;
-                }
-
-                if (date.Day == 1)
-                {
-                    // 日月を変更
-                    m_controller.PushA(50, 125);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushA(50, 75);
-
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 125);
-                    continue;
-                }
-
-                // 日を変更
-                m_controller.PushA(50, 125);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushUp(50, 75);
-
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 125);
-            }
+            InitialDatePicker.IsEnabled = false;
+            IncrementalDaysTextBox.IsEnabled = false;
+            IncreaseDateButton.IsEnabled = false;
+            await Task.Run(() => m_macro.IncreaseDate(date.Value, days));
+            InitialDatePicker.IsEnabled = true;
+            IncrementalDaysTextBox.IsEnabled = true;
+            IncreaseDateButton.IsEnabled = true;
         }
 
         private void UpButton_Click(object sender, RoutedEventArgs e)
