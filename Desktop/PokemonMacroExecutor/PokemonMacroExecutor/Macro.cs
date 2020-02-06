@@ -20,73 +20,141 @@ namespace Sta.PokemonMacroExecutor
         {
             for (int i = 0; i < days; i++)
             {
-                if (date.Year == 2060 && date.Month == 12 && date.Day == 31)
+                if (IsEndOfDays(date))
                 {
                     return;
                 }
 
-                int previousYear = date.Year;
-
                 date += TimeSpan.FromDays(1);
 
-                if (previousYear < date.Year)
-                {
-                    // 日月年を変更
-                    m_controller.PushA(50, 125);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
-
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 125);
-                    continue;
-                }
+                m_controller.PushA(50, 100);
+                m_controller.PushLeft(50, 50);
+                m_controller.PushLeft(50, 50);
+                m_controller.PushLeft(50, 50);
+                m_controller.PushUp(50, 50);
 
                 if (date.Day == 1)
                 {
-                    // 日月を変更
-                    m_controller.PushA(50, 125);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
+                    m_controller.PushLeft(50, 50);
+                    m_controller.PushUp(50, 50);
 
-                    m_controller.PushLeft(50, 75);
-                    m_controller.PushUp(50, 75);
+                    if (date.Month == 1)
+                    {
+                        m_controller.PushLeft(50, 50);
+                        m_controller.PushUp(50, 50);
+                    }
 
-                    m_controller.PushA(50, 75);
+                    m_controller.PushA(50, 50);
 
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 75);
-                    m_controller.PushA(50, 125);
-                    continue;
+                    if (date.Month == 1)
+                    {
+                        m_controller.PushA(50, 50);
+                    }
                 }
 
-                // 日を変更
-                m_controller.PushA(50, 125);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushLeft(50, 75);
-                m_controller.PushUp(50, 75);
-
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 75);
-                m_controller.PushA(50, 125);
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 100);
             }
+        }
+
+        private static bool IsEndOfDays(DateTime date)
+        {
+            return (date.Year == 2060 && date.Month == 12 && date.Day == 31);
+        }
+
+        public void IncreaseDateByThreeDays(DateTime date)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (IsEndOfDays(date))
+                {
+                    return;
+                }
+
+                date += TimeSpan.FromDays(1);
+
+                m_controller.PushA(50, 400);
+                m_controller.PushA(50, 400);
+                m_controller.PushA(50, 800);
+                m_controller.PushA(50, 2400);
+                m_controller.PushHome(50, 800);
+                m_controller.PushDown(50, 50);
+                m_controller.PushRight(50, 50);
+                m_controller.PushRight(50, 50);
+                m_controller.PushRight(50, 50);
+                m_controller.PushRight(50, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushDown(2000, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushDown(50, 50);
+                m_controller.PushDown(50, 50);
+                m_controller.PushDown(50, 50);
+                m_controller.PushDown(50, 50);
+                m_controller.PushA(50, 200);
+                m_controller.PushDown(50, 50);
+                m_controller.PushDown(50, 50);
+                m_controller.PushA(50, 150);
+
+                m_controller.PushRight(50, 50);
+                m_controller.PushRight(50, 50);
+                m_controller.PushUp(50, 50); // 日を変更
+
+                if (date.Day == 1)
+                {
+                    m_controller.PushLeft(50, 50);
+                    m_controller.PushUp(50, 50); // 月を変更
+
+                    if (date.Month == 1)
+                    {
+                        m_controller.PushLeft(50, 50);
+                        m_controller.PushUp(50, 50); // 年を変更
+                    }
+
+                    m_controller.PushA(50, 50);
+
+                    if (date.Month == 1)
+                    {
+                        m_controller.PushA(50, 50);
+                    }
+                }
+
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 50);
+                m_controller.PushA(50, 50); // OK
+                m_controller.PushHome(50, 1000);
+                m_controller.PushA(50, 500);
+                m_controller.PushB(50, 1000);
+                m_controller.PushA(50, 4500);
+            }
+
+            m_controller.PushA(50, 400);
+            m_controller.PushA(50, 400);
+            m_controller.PushA(50, 50);
+        }
+
+        public void Reset()
+        {
+            m_controller.PushHome(50, 800);
+            m_controller.PushX(50, 250);
+            m_controller.PushA(50, 3000);
+            m_controller.PushA(50, 900);
+            m_controller.PushA(50, 15000);
+
+            m_controller.PushA(50, 500);
+            m_controller.PushA(50, 500);
+            m_controller.PushA(50, 500);
+            m_controller.PushA(50, 500);
+
+            m_controller.PushA(50, 7500);
+        }
+
+        public void ResetAndIncreaseDateByThreeDays(DateTime date)
+        {
+            Reset();
+            IncreaseDateByThreeDays(date);
         }
     }
 }

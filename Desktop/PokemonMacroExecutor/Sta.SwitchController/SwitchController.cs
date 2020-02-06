@@ -41,6 +41,21 @@ namespace Sta.SwitchControllerLib
             Push(ButtonType.B, delay1, delay2);
         }
 
+        public void PushX(int delay1, int delay2)
+        {
+            Push(ButtonType.X, delay1, delay2);
+        }
+
+        public void PushY(int delay1, int delay2)
+        {
+            Push(ButtonType.Y, delay1, delay2);
+        }
+
+        public void PushHome(int delay1, int delay2)
+        {
+            Push(ButtonType.Home, delay1, delay2);
+        }
+
         public void PushUp(int delay1, int delay2)
         {
             Push(DPadCommand.Up, delay1, delay2);

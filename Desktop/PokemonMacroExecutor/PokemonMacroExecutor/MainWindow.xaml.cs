@@ -82,29 +82,6 @@ namespace Sta.PokemonMacroExecutor
             m_controller.PushB(50, 50);
         }
 
-        private async void IncreaseDateButton_Click(object sender, RoutedEventArgs e)
-        {
-            var date = InitialDatePicker.SelectedDate;
-            if (!date.HasValue)
-            {
-                return;
-            }
-
-            int days = 0;
-            if (!int.TryParse(IncrementalDaysTextBox.Text, out days))
-            {
-                return;
-            }
-
-            InitialDatePicker.IsEnabled = false;
-            IncrementalDaysTextBox.IsEnabled = false;
-            IncreaseDateButton.IsEnabled = false;
-            await Task.Run(() => m_macro.IncreaseDate(date.Value, days));
-            InitialDatePicker.IsEnabled = true;
-            IncrementalDaysTextBox.IsEnabled = true;
-            IncreaseDateButton.IsEnabled = true;
-        }
-
         private void UpButton_Click(object sender, RoutedEventArgs e)
         {
             m_controller.PushUp(50, 75);
@@ -120,6 +97,84 @@ namespace Sta.PokemonMacroExecutor
         private void LeftButton_Click(object sender, RoutedEventArgs e)
         {
             m_controller.PushLeft(50, 75);
+        }
+
+        private void DisableUI()
+        {
+            EnableOrDisableUI(false);
+        }
+
+        private void EnableUI()
+        {
+            EnableOrDisableUI(true);
+        }
+
+        private void EnableOrDisableUI(bool enabled)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(this); i++)
+            {
+                var ui = VisualTreeHelper.GetChild(this, i) as UIElement;
+                if (ui != null)
+                {
+                    ui.IsEnabled = enabled;
+                }
+            }
+        }
+
+        private async void IncreaseDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = InitialDatePicker.SelectedDate;
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            int days = 0;
+            if (!int.TryParse(IncrementalDaysTextBox.Text, out days))
+            {
+                return;
+            }
+
+            await ExecuteAsync(() => m_macro.IncreaseDate(date.Value, days));
+            InitialDatePicker.SelectedDate = date.Value + TimeSpan.FromDays(days);
+        }
+
+        
+
+        private async void IncreaseDateByThreeDaysButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = InitialDatePicker.SelectedDate;
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            await ExecuteAsync(() => m_macro.IncreaseDateByThreeDays(date.Value));
+            InitialDatePicker.SelectedDate = date.Value + TimeSpan.FromDays(3);
+        }
+
+        private async void ResetAndIncreaseDateByThreeDaysButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = InitialDatePicker.SelectedDate;
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            await ExecuteAsync(() => m_macro.ResetAndIncreaseDateByThreeDays(date.Value));
+            InitialDatePicker.SelectedDate = date.Value + TimeSpan.FromDays(3);
+        }
+
+        private async void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ExecuteAsync(() => m_macro.Reset());
+        }
+
+        private async Task ExecuteAsync(Action action)
+        {
+            DisableUI();
+            await Task.Run(action);
+            EnableUI();
         }
     }
 }

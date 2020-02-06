@@ -36,6 +36,13 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
             <DatePicker x:Name="InitialDatePicker" SelectedDateFormat="Long" DisplayDateStart="2000/1/1" DisplayDateEnd="2060/12/31"
                         Width="128"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
+            <Button x:Name="IncreaseDateByThreeDaysButton" Content="+ 3 days" Width="64" Click="IncreaseDateByThreeDaysButton_Click" VerticalAlignment="Center"/>
+            <Button x:Name="ResetAndIncreaseDateByThreeDaysButton" Content="Reset and retry" Width="128" Click="ResetAndIncreaseDateByThreeDaysButton_Click" VerticalAlignment="Center"/>
+            <Button x:Name="ResetButton" Content="Reset" Width="64" Click="ResetButton_Click" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
             <Label Content="+" VerticalAlignment="Center"/>
             <TextBox x:Name="IncrementalDaysTextBox" Text="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="64"/>
             <Label Content="days" VerticalAlignment="Center"/>
