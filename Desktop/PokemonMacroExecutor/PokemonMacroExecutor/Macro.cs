@@ -31,37 +31,9 @@ namespace Sta.PokemonMacroExecutor
                 m_controller.PushLeft(50, 50);
                 m_controller.PushLeft(50, 50);
                 m_controller.PushLeft(50, 50);
-                m_controller.PushUp(50, 50);
 
-                if (date.Day == 1)
-                {
-                    m_controller.PushLeft(50, 50);
-                    m_controller.PushUp(50, 50);
-
-                    if (date.Month == 1)
-                    {
-                        m_controller.PushLeft(50, 50);
-                        m_controller.PushUp(50, 50);
-                    }
-
-                    m_controller.PushA(50, 50);
-
-                    if (date.Month == 1)
-                    {
-                        m_controller.PushA(50, 50);
-                    }
-                }
-
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 100);
+                IncreaseDateByOneDayCore(date);
             }
-        }
-
-        private static bool IsEndOfDays(DateTime date)
-        {
-            return (date.Year == 2060 && date.Month == 12 && date.Day == 31);
         }
 
         public void IncreaseDateByThreeDays(DateTime date)
@@ -79,53 +51,9 @@ namespace Sta.PokemonMacroExecutor
                 m_controller.PushA(50, 400);
                 m_controller.PushA(50, 800);
                 m_controller.PushA(50, 2400);
-                m_controller.PushHome(50, 800);
-                m_controller.PushDown(50, 50);
-                m_controller.PushRight(50, 50);
-                m_controller.PushRight(50, 50);
-                m_controller.PushRight(50, 50);
-                m_controller.PushRight(50, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushDown(2000, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushDown(50, 50);
-                m_controller.PushDown(50, 50);
-                m_controller.PushDown(50, 50);
-                m_controller.PushDown(50, 50);
-                m_controller.PushA(50, 200);
-                m_controller.PushDown(50, 50);
-                m_controller.PushDown(50, 50);
-                m_controller.PushA(50, 150);
 
-                m_controller.PushRight(50, 50);
-                m_controller.PushRight(50, 50);
-                m_controller.PushUp(50, 50); // 日を変更
+                IncreaseDateByOne(date);
 
-                if (date.Day == 1)
-                {
-                    m_controller.PushLeft(50, 50);
-                    m_controller.PushUp(50, 50); // 月を変更
-
-                    if (date.Month == 1)
-                    {
-                        m_controller.PushLeft(50, 50);
-                        m_controller.PushUp(50, 50); // 年を変更
-                    }
-
-                    m_controller.PushA(50, 50);
-
-                    if (date.Month == 1)
-                    {
-                        m_controller.PushA(50, 50);
-                    }
-                }
-
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 50);
-                m_controller.PushA(50, 50); // OK
-                m_controller.PushHome(50, 1000);
-                m_controller.PushA(50, 500);
                 m_controller.PushB(50, 1000);
                 m_controller.PushA(50, 4500);
             }
@@ -155,6 +83,120 @@ namespace Sta.PokemonMacroExecutor
         {
             Reset();
             IncreaseDateByThreeDays(date);
+        }
+
+        public void DrawLotoID(DateTime date)
+        {
+            while (!IsEndOfDays(date))
+            {
+                date += TimeSpan.FromDays(1);
+
+                IncreaseDateByOne(date);
+
+                m_controller.PushA(50, 500);
+                m_controller.PushB(50, 500);
+                m_controller.PushDown(50, 200);
+                m_controller.PushA(50, 800);
+
+                m_controller.PushB(50, 500);
+                m_controller.PushB(50, 500);
+                m_controller.PushB(50, 800);
+                m_controller.PushA(50, 100); // レポート「はい」
+
+                for (int i = 0; i < 80; i++)
+                {
+                    m_controller.PushB(50, 100);
+                }
+
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 800);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 2500); // くじの結果待ち
+
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 2500); // 景品受け取り中
+
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+                //m_controller.PushB(50, 500);
+            }
+        }
+
+        private static bool IsEndOfDays(DateTime date)
+        {
+            return (date.Year == 2060 && date.Month == 12 && date.Day == 31);
+        }
+
+        /// <summary>
+        /// ホームボタンを押すところから始めて、日付を1日進め、ゲーム画面に戻ってくる。
+        /// </summary>
+        /// <param name="date"></param>
+        private void IncreaseDateByOne(DateTime date)
+        {
+            m_controller.PushHome(50, 800);
+            m_controller.PushDown(50, 50);
+            m_controller.PushRight(50, 50);
+            m_controller.PushRight(50, 50);
+            m_controller.PushRight(50, 50);
+            m_controller.PushRight(50, 50);
+            m_controller.PushA(50, 50);
+            m_controller.PushDown(2000, 50);
+            m_controller.PushA(50, 50);
+            m_controller.PushDown(50, 50);
+            m_controller.PushDown(50, 50);
+            m_controller.PushDown(50, 50);
+            m_controller.PushDown(50, 50);
+            m_controller.PushA(50, 200);
+            m_controller.PushDown(50, 50);
+            m_controller.PushDown(50, 50);
+            m_controller.PushA(50, 150);
+
+            m_controller.PushRight(50, 50);
+            m_controller.PushRight(50, 50);
+
+            IncreaseDateByOneDayCore(date);
+
+            m_controller.PushHome(50, 1000);
+            m_controller.PushA(50, 500);
+        }
+
+        /// <summary>
+        /// 「現在の日付と時刻」画面の「日」にカーソルが当たっている状態から日付を1日進め、「OK」を押す。
+        /// </summary>
+        /// <param name="date">現在の日付</param>
+        private void IncreaseDateByOneDayCore(DateTime date)
+        {
+            m_controller.PushUp(50, 50); // 日を変更
+
+            if (date.Day == 1)
+            {
+                m_controller.PushLeft(50, 50);
+                m_controller.PushUp(50, 50); // 月を変更
+
+                if (date.Month == 1)
+                {
+                    m_controller.PushLeft(50, 50);
+                    m_controller.PushUp(50, 50); // 年を変更
+                }
+
+                m_controller.PushA(50, 50);
+
+                if (date.Month == 1)
+                {
+                    m_controller.PushA(50, 50);
+                }
+            }
+
+            m_controller.PushA(50, 50);
+            m_controller.PushA(50, 50);
+            m_controller.PushA(50, 50);
+            m_controller.PushA(50, 100); // OK
         }
     }
 }

@@ -81,22 +81,55 @@ namespace Sta.PokemonMacroExecutor
         {
             m_controller.PushB(50, 50);
         }
+        
+        private void XButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushX(50, 50);
+        }
+
+        private void YButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushY(50, 50);
+        }
+
+        private void RButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushR(50, 50);
+        }
+
+        private void PlusButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushPlus(50, 50);
+        }
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushHome(50, 50);
+        }
+
+        private void CaptureButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_controller.PushCapture(50, 50);
+        }
 
         private void UpButton_Click(object sender, RoutedEventArgs e)
         {
-            m_controller.PushUp(50, 75);
+            m_controller.PushUp(50, 50);
         }
+
         private void RightButton_Click(object sender, RoutedEventArgs e)
         {
-            m_controller.PushRight(50, 75);
+            m_controller.PushRight(50, 50);
         }
+
         private void DownButton_Click(object sender, RoutedEventArgs e)
         {
-            m_controller.PushDown(50, 75);
+            m_controller.PushDown(50, 50);
         }
+
         private void LeftButton_Click(object sender, RoutedEventArgs e)
         {
-            m_controller.PushLeft(50, 75);
+            m_controller.PushLeft(50, 50);
         }
 
         private void DisableUI()
@@ -168,6 +201,17 @@ namespace Sta.PokemonMacroExecutor
         private async void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             await ExecuteAsync(() => m_macro.Reset());
+        }
+
+        private async void LotoIDButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = InitialDatePicker.SelectedDate;
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            await ExecuteAsync(() => m_macro.DrawLotoID(date.Value));
         }
 
         private async Task ExecuteAsync(Action action)

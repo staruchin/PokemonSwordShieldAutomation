@@ -51,9 +51,24 @@ namespace Sta.SwitchControllerLib
             Push(ButtonType.Y, delay1, delay2);
         }
 
+        public void PushR(int delay1, int delay2)
+        {
+            Push(ButtonType.R, delay1, delay2);
+        }
+
+        public void PushPlus(int delay1, int delay2)
+        {
+            Push(ButtonType.Plus, delay1, delay2);
+        }
+
         public void PushHome(int delay1, int delay2)
         {
             Push(ButtonType.Home, delay1, delay2);
+        }
+
+        public void PushCapture(int delay1, int delay2)
+        {
+            Push(ButtonType.Capture, delay1, delay2);
         }
 
         public void PushUp(int delay1, int delay2)
