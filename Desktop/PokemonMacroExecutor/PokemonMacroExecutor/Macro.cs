@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Sta.SwitchControllerLib;
 
@@ -16,6 +17,12 @@ namespace Sta.PokemonMacroExecutor
             m_controller = controller;
         }
 
+        /// <summary>
+        /// 「日付と時刻」画面の「現在の日付と時刻」にカーソルが当たっている状態から始めて、
+        /// 「現在の日付と時刻」画面に入り、日付を1日進め、OKを押して戻ってくる、を指定した日数だけ繰り返す。
+        /// </summary>
+        /// <param name="date">開始日時を表すDateTime</param>
+        /// <param name="days">進める日数</param>
         public void IncreaseDate(DateTime date, int days)
         {
             for (int i = 0; i < days; i++)
@@ -36,9 +43,26 @@ namespace Sta.PokemonMacroExecutor
             }
         }
 
+
+
+        /// <summary>
+        /// レイドの巣穴の前から始めて、「みんなで　挑戦！」を選んでからホームボタンを押して
+        /// 日付を1日進め、ゲーム画面に戻ってきて巣穴の前に戻る、を3日分繰り返す。
+        /// </summary>
+        /// <param name="date">開始日時を表すDateTime</param>
         public void IncreaseDateByThreeDays(DateTime date)
         {
-            for (int i = 0; i < 3; i++)
+            IncreaseDateBySpecifiedDays(date, 3);
+        }
+
+        /// <summary>
+        /// レイドの巣穴の前から始めて、「みんなで　挑戦！」を選んでからホームボタンを押して
+        /// 日付を1日進め、ゲーム画面に戻ってきて巣穴の前に戻る、を3日分繰り返す。
+        /// </summary>
+        /// <param name="date">開始日時を表すDateTime</param>
+        public void IncreaseDateBySpecifiedDays(DateTime date, int days)
+        {
+            for (int i = 0; i < days; i++)
             {
                 if (IsEndOfDays(date))
                 {
@@ -83,6 +107,33 @@ namespace Sta.PokemonMacroExecutor
         {
             Reset();
             IncreaseDateByThreeDays(date);
+        }
+
+
+        /// <summary>
+        /// 巣穴の前から始めて、ねがいのかたまりを持っている分だけ投入してバトルを繰り返す。
+        /// </summary>
+        /// <param name="ct">キャンセル用のCancellationToken</param>
+        /// <remarks>
+        /// 事前準備：
+        /// バッグの「かいふく」と「ボール」を空にしておく。
+        /// 使用するポケモンを手持ちの先頭にしておく。
+        /// 技を一つだけにして他は忘れさせておく。
+        /// </remarks>
+        public void BattleMaxRaid(CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                m_controller.PushA(50, 3000);
+                m_controller.PushDown(50, 1500);
+                m_controller.PushA(50, 1500);
+                m_controller.PushA(50, 1500);
+                m_controller.PushA(50, 1500);
+                m_controller.PushA(50, 3000);
+                m_controller.PushB(50, 3000);
+                m_controller.PushB(50, 1500);
+                m_controller.PushDown(50, 3000);
+            }
         }
 
         public void DrawLotoID(DateTime date)

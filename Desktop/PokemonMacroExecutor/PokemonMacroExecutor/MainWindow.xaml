@@ -11,7 +11,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical">
+        <StackPanel x:Name="LeftMainPanel" Orientation="Vertical">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
                 <Label Content="COM" VerticalAlignment="Center"/>
                 <TextBox x:Name="ComTextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="64"/>
@@ -62,8 +62,19 @@
                 <Button x:Name="IncreaseDateButton" Content="Execute" Width="64" Click="IncreaseDateButton_Click" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
+                <Button x:Name="GainWattsButton" Content="Gain Watts" Width="96" Click="GainWattsButton_Click" VerticalAlignment="Center"/>
+                <TextBox x:Name="IncrementalDaysForGainWattsTextBox" Text="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalContentAlignment="Right" Width="64"/>
+                <Label Content="days" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
+                <Button x:Name="MaxRaidButton" Content="Max Raid" Width="64" Click="MaxRaidButton_Click" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="8">
                 <Button x:Name="LotoIDButton" Content="Loto ID" Width="64" Click="LotoIDButton_Click" VerticalAlignment="Center"/>
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="8">
+            <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="64" IsEnabled="False"/>
         </StackPanel>
     </Grid>
 </Window>

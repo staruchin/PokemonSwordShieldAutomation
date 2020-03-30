@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +82,7 @@ namespace Sta.PokemonMacroExecutor
         {
             m_controller.PushB(50, 50);
         }
-        
+
         private void XButton_Click(object sender, RoutedEventArgs e)
         {
             m_controller.PushX(50, 50);
@@ -144,14 +145,16 @@ namespace Sta.PokemonMacroExecutor
 
         private void EnableOrDisableUI(bool enabled)
         {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(this); i++)
-            {
-                var ui = VisualTreeHelper.GetChild(this, i) as UIElement;
-                if (ui != null)
-                {
-                    ui.IsEnabled = enabled;
-                }
-            }
+            LeftMainPanel.IsEnabled = enabled;
+            CancelButton.IsEnabled = !enabled;
+            //for (int i = 0; i < VisualTreeHelper.GetChildrenCount(this); i++)
+            //{
+            //    var ui = VisualTreeHelper.GetChild(this, i) as UIElement;
+            //    if (ui != null)
+            //    {
+            //        ui.IsEnabled = enabled;
+            //    }
+            //}
         }
 
         private async void IncreaseDateButton_Click(object sender, RoutedEventArgs e)
@@ -171,8 +174,6 @@ namespace Sta.PokemonMacroExecutor
             await ExecuteAsync(() => m_macro.IncreaseDate(date.Value, days));
             InitialDatePicker.SelectedDate = date.Value + TimeSpan.FromDays(days);
         }
-
-        
 
         private async void IncreaseDateByThreeDaysButton_Click(object sender, RoutedEventArgs e)
         {
@@ -201,6 +202,42 @@ namespace Sta.PokemonMacroExecutor
         private async void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             await ExecuteAsync(() => m_macro.Reset());
+        }
+
+        private async void GainWattsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = InitialDatePicker.SelectedDate;
+            if (!date.HasValue)
+            {
+                return;
+            }
+
+            int days = 0;
+            if (!int.TryParse(IncrementalDaysForGainWattsTextBox.Text, out days))
+            {
+                return;
+            }
+
+            await ExecuteAsync(() => m_macro.IncreaseDateBySpecifiedDays(date.Value, days));
+            InitialDatePicker.SelectedDate = date.Value + TimeSpan.FromDays(days);
+        }
+
+        private CancellationTokenSource m_cts = null;
+        private async void MaxRaidButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_cts = new CancellationTokenSource();
+            await ExecuteAsync(() => m_macro.BattleMaxRaid(m_cts.Token));
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CancelButton.IsEnabled = false;
+
+            if (m_cts != null)
+            {
+                m_cts.Cancel();
+                m_cts = null;
+            }
         }
 
         private async void LotoIDButton_Click(object sender, RoutedEventArgs e)
