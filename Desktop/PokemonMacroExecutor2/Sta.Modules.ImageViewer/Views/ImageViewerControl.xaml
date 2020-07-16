@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Sta.Modules.ImageViewer.Views.ImageViewerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:conv="clr-namespace:Sta.Modules.ImageViewer.Converters"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <conv:BitmapToBitmapSourceConverter x:Key="BitmapToBitmapSourceConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="{Binding Frame.Value, Converter={StaticResource BitmapToBitmapSourceConverter}}"/>
+    </Grid>
+</UserControl>
