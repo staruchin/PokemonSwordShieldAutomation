@@ -8,6 +8,6 @@
         <conv:BitmapToBitmapSourceConverter x:Key="BitmapToBitmapSourceConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Image Source="{Binding Frame.Value, Converter={StaticResource BitmapToBitmapSourceConverter}}"/>
+        <Image Source="{Binding Frame.Value, Converter={StaticResource BitmapToBitmapSourceConverter}}" Stretch="Fill"/>
     </Grid>
 </UserControl>

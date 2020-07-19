@@ -1,9 +1,11 @@
-﻿using Sta.PokemonMacroExecutor2.Views;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
-using System.Windows;
-using Sta.Modules.ImageViewer;
 using Sta.CaptureBoard;
+using Sta.Modules.Controller;
+using Sta.Modules.ImageViewer;
+using Sta.PokemonMacroExecutor2.Views;
+using Sta.SwitchController;
+using System.Windows;
 
 namespace Sta.PokemonMacroExecutor2
 {
@@ -19,12 +21,13 @@ namespace Sta.PokemonMacroExecutor2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<GameCapture>();
+            containerRegistry.RegisterInstance(new GameCapture());
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ImageViewerModule>();
+            moduleCatalog.AddModule<ControllerModule>();
         }
     }
 }

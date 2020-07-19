@@ -3,18 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="900" Width="1200">
+        Title="{Binding Title}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="360"/>
-        </Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>-->
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        <ContentControl prism:RegionManager.RegionName="ImageViewerArea"/>
-        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ControllerArea"/>
-        <ContentControl Grid.Column="1" Grid.RowSpan="2" prism:RegionManager.RegionName="MacroSelectorArea"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <ContentControl prism:RegionManager.RegionName="ImageViewerArea"/>
+            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ControllerArea"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="35*"/>
+            </Grid.RowDefinitions>
+            <ContentControl prism:RegionManager.RegionName="SerialPortSelectorArea"/>
+            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="MacroSelectorArea"/>
+        </Grid>
     </Grid>
 </Window>

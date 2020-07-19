@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sta.PokemonMacroExecutor2.Properties {
+namespace Sta.SwitchController.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,10 @@ namespace Sta.PokemonMacroExecutor2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("960")]
-        public double ImageViewerAreaWidth {
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int PushDuration {
             get {
-                return ((double)(this["ImageViewerAreaWidth"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("540")]
-        public double ImageViewerAreaHeight {
-            get {
-                return ((double)(this["ImageViewerAreaHeight"]));
+                return ((int)(this["PushDuration"]));
             }
         }
     }

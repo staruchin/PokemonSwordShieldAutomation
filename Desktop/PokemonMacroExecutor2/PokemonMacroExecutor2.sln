@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{F135E0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.CaptureBoard", "Sta.CaptureBoard\Sta.CaptureBoard.csproj", "{F86BEAC1-5383-4FFC-88A6-34019228719F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.Modules.Controller", "Sta.Modules.Controller\Sta.Modules.Controller.csproj", "{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.SwitchController", "Sta.SwitchController\Sta.SwitchController.csproj", "{BF68560C-01C3-42E7-AD45-2629E812CC10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +33,21 @@ Global
 		{F86BEAC1-5383-4FFC-88A6-34019228719F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F86BEAC1-5383-4FFC-88A6-34019228719F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F86BEAC1-5383-4FFC-88A6-34019228719F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF68560C-01C3-42E7-AD45-2629E812CC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF68560C-01C3-42E7-AD45-2629E812CC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF68560C-01C3-42E7-AD45-2629E812CC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF68560C-01C3-42E7-AD45-2629E812CC10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F86BEAC1-5383-4FFC-88A6-34019228719F} = {F135E07C-1DED-45E1-B952-85DDA0554927}
+		{BF68560C-01C3-42E7-AD45-2629E812CC10} = {F135E07C-1DED-45E1-B952-85DDA0554927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FA4BF73-11CC-4BDC-AA58-5AB8253E30E5}

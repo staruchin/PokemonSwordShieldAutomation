@@ -13,7 +13,7 @@ namespace Sta.Modules.ImageViewer.ViewModels
 {
     public class ImageViewerControlViewModel : BindableBase, IDisposable
     {
-        private CompositeDisposable Disposable { get; } = new CompositeDisposable();
+        private CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
         public ReactiveProperty<Bitmap> Frame { get; set; }
 
@@ -23,14 +23,14 @@ namespace Sta.Modules.ImageViewer.ViewModels
         {
             m_capture = capture;
 
-            Frame = m_capture.ObserveProperty(x => x.Frame).ToReactiveProperty().AddTo(Disposable);
+            Frame = m_capture.ObserveProperty(x => x.Frame).ToReactiveProperty().AddTo(Disposables);
 
             m_capture.Start();
         }
 
         public void Dispose()
         {
-            Disposable.Dispose();
+            Disposables.Dispose();
         }
     }
 }

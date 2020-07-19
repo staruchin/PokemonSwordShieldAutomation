@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Sta.Modules.Controller.Views.ControllerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"   
+             xmlns:switchCtrl="clr-namespace:Sta.SwitchController;assembly=Sta.SwitchController"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="600"          
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.A}" Content="A" Grid.Column="7" Grid.Row="2"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.B}" Content="B" Grid.Column="6" Grid.Row="3"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.X}" Content="X" Grid.Column="6" Grid.Row="1"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Y}" Content="Y" Grid.Column="5" Grid.Row="2"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.L}" Content="L" Grid.Column="2"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.R}" Content="R" Grid.Column="5"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZL}" Content="ZL"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZR}" Content="ZR" Grid.Column="7"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Minus}" Content="-" Grid.Column="3" Grid.Row="1"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Plus}" Content="+" Grid.Column="4" Grid.Row="1"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.LeftStick}" Content="LStick" Grid.Column="1" Grid.Row="2"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.RightStick}" Content="RStick" Grid.Column="6" Grid.Row="5"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Home}" Content="Home" Grid.Column="4" Grid.Row="5"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Capture}" Content="Capture" Grid.Column="3" Grid.Row="5"/>
+
+
+
+    </Grid>
+</UserControl>
