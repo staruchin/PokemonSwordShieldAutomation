@@ -111,6 +111,10 @@
       <Project>{AC46C47D-0000-42E2-AAF5-661B3E295211}</Project>
       <Name>Sta.Modules.ImageViewer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sta.Modules.MacroExecutor\Sta.Modules.MacroExecutor.csproj">
+      <Project>{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}</Project>
+      <Name>Sta.Modules.MacroExecutor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sta.SwitchController\Sta.SwitchController.csproj">
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>

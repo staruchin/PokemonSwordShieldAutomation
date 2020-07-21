@@ -5,10 +5,6 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}">
     <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition/>

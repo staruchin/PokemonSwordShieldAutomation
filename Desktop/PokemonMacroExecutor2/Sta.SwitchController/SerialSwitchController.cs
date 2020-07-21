@@ -1,72 +1,55 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+using System;
+using System.IO;
+using System.Reactive.Disposables;
 using System.Threading;
 
 namespace Sta.SwitchController
 {
-    public class SerialSwitchController
+    public class SerialSwitchController : AbstractSwitchController, IDisposable
     {
-        public SerialPortService SerialPort { get; set; }
+        private CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
-        public void Push(ButtonType button)
+        private SerialPortService m_serialPort = new SerialPortService();
+
+        public ReactiveProperty<bool> IsConnected { get; }
+
+        public SerialSwitchController()
         {
-            Push(button, DefaultPushDuration);
+            IsConnected = m_serialPort.IsOpen.ObserveProperty(o => o.Value).ToReactiveProperty().AddTo(Disposables);
         }
 
-        public void Push(ButtonType button, TimeSpan duration)
+        public void Connect(string portName)
         {
-            Press(button);
-            Thread.Sleep(duration);
-            Release(button);
+            if (m_serialPort.IsOpen.Value)
+            {
+                m_serialPort.Close();
+            }
+            m_serialPort.PortName = portName;
+            m_serialPort.Open();
         }
 
-        public void Press(ButtonType button)
-        {
-            PressOrReleaseButton(button, ButtonCommand.Press);
-        }
-
-        public void Release(ButtonType button)
-        {
-            PressOrReleaseButton(button, ButtonCommand.Release);
-        }
-
-        public void Push(DPadCommand dPad)
-        {
-            Push(dPad, DefaultPushDuration);
-        }
-
-        public void Push(DPadCommand dPad, TimeSpan duration)
-        {
-            Press(dPad);
-            Thread.Sleep(duration);
-            ReleaseDPad();
-        }
-
-        public void Press(DPadCommand dPad)
-        {
-            MoveHat(dPad);
-        }
-
-        public void ReleaseDPad()
-        {
-            MoveHat(DPadCommand.Center);
-        }
-
-
-        private TimeSpan DefaultPushDuration { get; } = TimeSpan.FromMilliseconds(Properties.Settings.Default.PushDuration);
-
-        private void PressOrReleaseButton(ButtonType button, ButtonCommand command)
+        protected override void PressOrReleaseButton(ButtonType button, ButtonCommand command)
         {
             WriteSerialPort(new[] { (byte)ControlType.Button, (byte)button, (byte)command, });
         }
 
-        private void MoveHat(DPadCommand command)
+        protected override void MoveHat(DPadCommand command)
         {
             WriteSerialPort(new[] { (byte)ControlType.DPad, (byte)command, });
         }
 
         private void WriteSerialPort(byte[] buffer)
         {
-            SerialPort.Write(buffer);
+            m_serialPort.Write(buffer);
+        }
+
+        public void Dispose()
+        {
+            Disposables.Dispose();
+            m_serialPort.Dispose();
         }
     }
 }

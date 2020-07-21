@@ -1,21 +1,21 @@
-﻿using Prism.Ioc;
+﻿using Sta.Modules.MacroExecutor.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using Sta.SwitchController;
 
-namespace Sta.Modules.Controller
+namespace Sta.Modules.MacroExecutor
 {
-    public class ControllerModule : IModule
+    public class MacroExecutorModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var rm = containerProvider.Resolve<IRegionManager>();
-            rm.RegisterViewWithRegion("ControllerArea", typeof(Views.ControllerPanel));
-            rm.RegisterViewWithRegion("SerialPortSelectorArea", typeof(Views.SerialPortSelector));
+            rm.RegisterViewWithRegion("MacroSelectorArea", typeof(Views.MacroSelector));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            
         }
     }
 }

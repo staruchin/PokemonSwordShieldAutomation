@@ -10,10 +10,9 @@ namespace Sta.Modules.Controller.ViewModels
 
         private SerialSwitchController m_switchController = null;
 
-        public ControllerPanelViewModel(SerialSwitchController controller, SerialPortService serialPort)
+        public ControllerPanelViewModel(SerialSwitchController controller)
         {
             m_switchController = controller;
-            m_switchController.SerialPort = serialPort;
 
             PushButtonCommand = new DelegateCommand<ButtonType?>(PushButtonCommandExecute);
         }

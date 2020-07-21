@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Prism.Mvvm;
+using Reactive.Bindings;
+using System;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sta.SwitchController
 {
     public class SerialPortService : IDisposable
     {
         private SerialPort m_serialPort = new SerialPort();
+
+        public ReactiveProperty<bool> IsOpen { get; } = new ReactiveProperty<bool>();
+
+        public string PortName
+        {
+            get { return m_serialPort.PortName; }
+            set { m_serialPort.PortName = value; }
+        }
 
         public SerialPortService()
         {
@@ -21,25 +27,36 @@ namespace Sta.SwitchController
 
         public static string[] GetPortNames() => SerialPort.GetPortNames();
 
-        public void SetPortName(string portName)
+        public void Open()
         {
-            m_serialPort.PortName = portName;
+            try
+            {
+                m_serialPort.Open();
+            }
+            finally
+            {
+                IsOpen.Value = m_serialPort.IsOpen;
+            }
         }
 
-        public bool IsOpen => m_serialPort.IsOpen;
-        public void Open() => m_serialPort.Open();
-        public void Close() => m_serialPort.Close();
+        public void Close()
+        {
+            try
+            {
+                m_serialPort.Close();
+            }
+            finally
+            {
+                IsOpen.Value = m_serialPort.IsOpen;
+            }
+        }
+
         public void Write(byte[] buffer) => m_serialPort.Write(buffer, 0, buffer.Length);
 
         public void Dispose()
         {
             if (m_serialPort != null)
             {
-                if (m_serialPort.IsOpen)
-                {
-                    m_serialPort.Close();
-                }
-
                 m_serialPort.Dispose();
                 m_serialPort = null;
             }
