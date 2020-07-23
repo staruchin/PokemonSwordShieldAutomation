@@ -1,20 +1,26 @@
 ﻿using Prism.Mvvm;
-using Reactive.Bindings;
 using System;
 using System.IO.Ports;
 
 namespace Sta.SwitchController
 {
-    public class SerialPortService : IDisposable
+    public class SerialPortService : BindableBase, ISerialPortService, IDisposable
     {
         private SerialPort m_serialPort = new SerialPort();
 
-        public ReactiveProperty<bool> IsOpen { get; } = new ReactiveProperty<bool>();
-
+        /// <inheritdoc/>
         public string PortName
         {
             get { return m_serialPort.PortName; }
             set { m_serialPort.PortName = value; }
+        }
+
+        private bool m_isOpen = false;
+        /// <inheritdoc/>
+        public bool IsOpen
+        {
+            get { return m_isOpen; }
+            private set { SetProperty(ref m_isOpen, value); }
         }
 
         public SerialPortService()
@@ -25,8 +31,12 @@ namespace Sta.SwitchController
             m_serialPort.StopBits = StopBits.One;
         }
 
+        /// <summary>
+        /// 現在のコンピューターのシリアルポート名の配列を取得します。
+        /// </summary>
         public static string[] GetPortNames() => SerialPort.GetPortNames();
 
+        /// <inheritdoc/>
         public void Open()
         {
             try
@@ -35,10 +45,11 @@ namespace Sta.SwitchController
             }
             finally
             {
-                IsOpen.Value = m_serialPort.IsOpen;
+                IsOpen = m_serialPort.IsOpen;
             }
         }
 
+        /// <inheritdoc/>
         public void Close()
         {
             try
@@ -47,10 +58,11 @@ namespace Sta.SwitchController
             }
             finally
             {
-                IsOpen.Value = m_serialPort.IsOpen;
+                IsOpen = m_serialPort.IsOpen;
             }
         }
 
+        /// <inheritdoc/>
         public void Write(byte[] buffer) => m_serialPort.Write(buffer, 0, buffer.Length);
 
         public void Dispose()

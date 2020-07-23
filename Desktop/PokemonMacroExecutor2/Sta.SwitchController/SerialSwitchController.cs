@@ -1,55 +1,48 @@
-﻿using Prism.Mvvm;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
-using System.IO;
-using System.Reactive.Disposables;
-using System.Threading;
-
-namespace Sta.SwitchController
+﻿namespace Sta.SwitchController
 {
-    public class SerialSwitchController : AbstractSwitchController, IDisposable
+    public class SerialSwitchController : ISwitchController
     {
-        private CompositeDisposable Disposables { get; } = new CompositeDisposable();
+        public ISerialPortService SerialPort { get; set; }
 
-        private SerialPortService m_serialPort = new SerialPortService();
-
-        public ReactiveProperty<bool> IsConnected { get; }
-
-        public SerialSwitchController()
+        public void PressButton(ButtonType button)
         {
-            IsConnected = m_serialPort.IsOpen.ObserveProperty(o => o.Value).ToReactiveProperty().AddTo(Disposables);
+            PressOrReleaseButton(button, ButtonCommand.Press);
         }
 
-        public void Connect(string portName)
+        public void ReleaseButton(ButtonType button)
         {
-            if (m_serialPort.IsOpen.Value)
-            {
-                m_serialPort.Close();
-            }
-            m_serialPort.PortName = portName;
-            m_serialPort.Open();
+            PressOrReleaseButton(button, ButtonCommand.Release);
         }
 
-        protected override void PressOrReleaseButton(ButtonType button, ButtonCommand command)
+        private void PressOrReleaseButton(ButtonType button, ButtonCommand command)
         {
             WriteSerialPort(new[] { (byte)ControlType.Button, (byte)button, (byte)command, });
         }
 
-        protected override void MoveHat(DPadCommand command)
+        public void PressDPad(DPadCommand dPad)
         {
-            WriteSerialPort(new[] { (byte)ControlType.DPad, (byte)command, });
+            WriteSerialPort(new[] { (byte)ControlType.DPad, (byte)dPad, });
+        }
+
+        public void ReleaseDPad()
+        {
+            PressDPad(DPadCommand.Center);
+        }
+
+        public void MoveStick(StickType stick, byte x, byte y)
+        {
+            WriteSerialPort(new[] { (byte)ControlType.Stick, (byte)stick, x, y, });
+        }
+
+        public void ReleaseStick(StickType stick)
+        {
+            const byte Center = 128;
+            MoveStick(stick, Center, Center);
         }
 
         private void WriteSerialPort(byte[] buffer)
         {
-            m_serialPort.Write(buffer);
-        }
-
-        public void Dispose()
-        {
-            Disposables.Dispose();
-            m_serialPort.Dispose();
+            SerialPort.Write(buffer);
         }
     }
 }

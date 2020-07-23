@@ -1,5 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using Sta.AutomationMacro;
 using Sta.CaptureBoard;
 using Sta.Modules.Controller;
 using Sta.Modules.ImageViewer;
@@ -23,7 +24,21 @@ namespace Sta.PokemonMacroExecutor2
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance(new GameCapture());
-            containerRegistry.RegisterInstance(new SerialSwitchController());
+
+            var controller = new SerialSwitchController();
+            var serialPort = new SerialPortService();
+            var macro = new MacroService();
+            var gameDate = new GameDateManager();
+
+            controller.SerialPort = serialPort;
+            macro.Controller = controller;
+            macro.GameDateManager = gameDate;
+            gameDate.Controller = controller;
+
+            containerRegistry.RegisterInstance<ISwitchController>(controller);
+            containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
+            containerRegistry.RegisterInstance<IMacroService>(macro);
+            containerRegistry.RegisterInstance<IGameDateManager>(gameDate);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

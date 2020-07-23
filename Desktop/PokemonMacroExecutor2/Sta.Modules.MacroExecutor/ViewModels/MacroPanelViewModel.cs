@@ -1,47 +1,44 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using Sta.AutomationMacro;
 using Sta.SwitchController;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Sta.Modules.MacroExecutor.ViewModels
 {
-    public class MacroSelectorViewModel : BindableBase, IDisposable
+    public class MacroPanelViewModel : BindableBase, IDisposable
     {
         private CompositeDisposable Disposables { get; } = new CompositeDisposable();
 
-        public ReactiveProperty<bool> IsControllerConnected { get; }
+        public ReactiveProperty<bool> IsConnected { get; }
         public ReactiveProperty<bool> IsBusy { get; }
 
         public ReactiveProperty<DateTime?> GameDate { get; set; }
         public ReactiveCommand DrawLotoIdCommand { get; }
 
-        private SerialSwitchController m_controller = null;
+        private IMacroService m_macro = null;
 
-        public MacroSelectorViewModel(SerialSwitchController controller)
+        public MacroPanelViewModel(IMacroService macro, ISerialPortService serialPort)
         {
-            m_controller = controller;
+            m_macro = macro;
 
-            IsControllerConnected = m_controller.IsConnected.ObserveProperty(p => p.Value).ToReactiveProperty().AddTo(Disposables);
+            IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
             IsBusy = new ReactiveProperty<bool>().AddTo(Disposables);
 
-            GameDate = new ReactiveProperty<DateTime?>(DateTime.Now).AddTo(Disposables);
+            GameDate = m_macro.GameDateManager.ToReactivePropertyAsSynchronized(m => m.GameDate).AddTo(Disposables);
+            GameDate.Value = DateTime.Now;
 
-            DrawLotoIdCommand = CreateReactiveCommand();
-            DrawLotoIdCommand.Subscribe(DrawLotoId);
-
+            DrawLotoIdCommand = CreateReactiveCommand().AddTo(Disposables);
+            DrawLotoIdCommand.Subscribe(DrawLotoId).AddTo(Disposables);
         }
 
         private ReactiveCommand CreateReactiveCommand()
         {
-            return IsControllerConnected.CombineLatest(IsBusy, (connected, busy) => connected && !busy).ToReactiveCommand().AddTo(Disposables);
+            return IsConnected.CombineLatest(IsBusy, (connected, busy) => connected && !busy).ToReactiveCommand();
         }
 
         private async void DrawLotoId()
@@ -49,7 +46,8 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             try
             {
                 IsBusy.Value = true;
-                await Task.Delay(3000);
+
+                await Task.Run(() => m_macro.DrawLotoId());
             }
             finally
             {

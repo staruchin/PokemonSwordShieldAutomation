@@ -17,28 +17,24 @@ namespace Sta.Modules.Controller.ViewModels
         public ObservableCollection<string> PortNames { get; }
         public ReactiveProperty<string> SelectedPortName { get; }
         public ReactiveProperty<int> SelectedPortNameIndex { get; }
-        public ReactiveProperty<string> ConnectionStatus { get; }
+        public ReactiveProperty<bool> IsConnected { get; }
 
-        private SerialSwitchController m_controller = null;
+        private ISerialPortService m_serialPort = null;
 
-        public SerialPortSelectorViewModel(SerialSwitchController controller)
+        public SerialPortSelectorViewModel(ISerialPortService serialPort)
         {
-            m_controller = controller;
+            m_serialPort = serialPort;
 
-            PortNames = new ObservableCollection<string>(new[] { "COM1", "COM2", "COM3", "COM4" }); // (SerialPortService.GetPortNames());
+            PortNames = new ObservableCollection<string>(SerialPortService.GetPortNames());
+            //PortNames = new ObservableCollection<string>(new[] { "COM1", "COM2", "COM3", "COM4" });
+
             SelectedPortName = new ReactiveProperty<string>().AddTo(Disposables);
-            SelectedPortNameIndex = new ReactiveProperty<int>().AddTo(Disposables);
-            ConnectionStatus = m_controller.IsConnected.ObserveProperty(p => p.Value).Select(o => ToConnectionStatus(o)).ToReactiveProperty().AddTo(Disposables);
+            SelectedPortName.Subscribe(n => Connect(n)).AddTo(Disposables);
 
+            SelectedPortNameIndex = new ReactiveProperty<int>().AddTo(Disposables);
             SelectedPortNameIndex.Value = (PortNames.Count == 1) ? 0 : -1;
 
-            SelectedPortName.Subscribe(n => Connect(n)).AddTo(Disposables);
-        }
-
-        private string ToConnectionStatus(bool open)
-        {
-            return open ? Properties.Resources.ConnectionStatusConnected
-                        : Properties.Resources.ConnectionStatusNotConnected;
+            IsConnected = m_serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
         }
 
         private void Connect(string portName)
@@ -47,7 +43,12 @@ namespace Sta.Modules.Controller.ViewModels
 
             try
             {
-                m_controller.Connect(portName);
+                if (m_serialPort.IsOpen)
+                {
+                    m_serialPort.Close();
+                }
+                m_serialPort.PortName = portName;
+                m_serialPort.Open();
             }
             catch (IOException)
             {

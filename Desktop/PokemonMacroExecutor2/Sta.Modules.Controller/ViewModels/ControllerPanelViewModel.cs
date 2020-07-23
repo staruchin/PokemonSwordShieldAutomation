@@ -8,23 +8,23 @@ namespace Sta.Modules.Controller.ViewModels
     {
         public DelegateCommand<ButtonType?> PushButtonCommand { get; }
 
-        private SerialSwitchController m_switchController = null;
+        private ISwitchController m_switchController = null;
 
-        public ControllerPanelViewModel(SerialSwitchController controller)
+        public ControllerPanelViewModel(ISwitchController controller)
         {
             m_switchController = controller;
 
-            PushButtonCommand = new DelegateCommand<ButtonType?>(PushButtonCommandExecute);
+            PushButtonCommand = new DelegateCommand<ButtonType?>(PushButton);
         }
 
-        private void PushButtonCommandExecute(ButtonType? button)
+        private void PushButton(ButtonType? button)
         {
             if (!button.HasValue)
             {
                 return;
             }
 
-            m_switchController.Push(button.Value);
+            m_switchController.PressAndReleaseButton(button.Value, Properties.Settings.Default.PressAndReleaseDuration);
         }
     }
 }

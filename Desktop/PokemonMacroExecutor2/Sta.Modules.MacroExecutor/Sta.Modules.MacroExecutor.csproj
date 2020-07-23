@@ -63,9 +63,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\MacroSelectorViewModel.cs" />
-    <Compile Include="Views\MacroSelector.xaml.cs">
-      <DependentUpon>MacroSelector.xaml</DependentUpon>
+    <Compile Include="ViewModels\MacroPanelViewModel.cs" />
+    <Compile Include="Views\MacroPanel.xaml.cs">
+      <DependentUpon>MacroPanel.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,13 +78,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sta.AutomationMacro\Sta.AutomationMacro.csproj">
+      <Project>{372C9259-B813-486E-AAA9-5B46EA768B5A}</Project>
+      <Name>Sta.AutomationMacro</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sta.SwitchController\Sta.SwitchController.csproj">
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\MacroSelector.xaml">
+    <Page Include="Views\MacroPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

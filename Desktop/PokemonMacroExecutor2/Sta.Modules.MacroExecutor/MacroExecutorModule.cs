@@ -1,7 +1,7 @@
-﻿using Sta.Modules.MacroExecutor.Views;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using Sta.AutomationMacro;
 
 namespace Sta.Modules.MacroExecutor
 {
@@ -10,12 +10,11 @@ namespace Sta.Modules.MacroExecutor
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var rm = containerProvider.Resolve<IRegionManager>();
-            rm.RegisterViewWithRegion("MacroSelectorArea", typeof(Views.MacroSelector));
+            rm.RegisterViewWithRegion("MacroSelectorArea", typeof(Views.MacroPanel));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
         }
     }
 }

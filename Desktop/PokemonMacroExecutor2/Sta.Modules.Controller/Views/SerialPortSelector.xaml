@@ -2,13 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
+             xmlns:conv="clr-namespace:Sta.Modules.Controller.Converteres"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <conv:BooleanSerialPortConnectionToStringConverter x:Key="BooleanSerialPortConnectionToStringConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ComboBox VerticalContentAlignment="Center" ItemsSource="{Binding PortNames}" SelectedItem="{Binding SelectedPortName.Value}" SelectedIndex="{Binding SelectedPortNameIndex.Value}"/>
-        <TextBlock Grid.Column="1" Text="{Binding ConnectionStatus.Value}" VerticalAlignment="Center" Margin="10,0"/>
+        <TextBlock Grid.Column="1" Text="{Binding IsConnected.Value, Converter={StaticResource BooleanSerialPortConnectionToStringConverter}}" VerticalAlignment="Center" Margin="10,0"/>
     </Grid>
 </UserControl>

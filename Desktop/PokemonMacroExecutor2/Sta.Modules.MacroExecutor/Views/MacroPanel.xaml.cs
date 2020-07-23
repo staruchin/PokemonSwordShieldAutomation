@@ -3,11 +3,11 @@
 namespace Sta.Modules.MacroExecutor.Views
 {
     /// <summary>
-    /// Interaction logic for MacroSelector
+    /// Interaction logic for MacroPanel
     /// </summary>
-    public partial class MacroSelector : UserControl
+    public partial class MacroPanel : UserControl
     {
-        public MacroSelector()
+        public MacroPanel()
         {
             InitializeComponent();
         }

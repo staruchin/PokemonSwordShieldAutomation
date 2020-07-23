@@ -22,14 +22,5 @@ namespace Sta.SwitchController.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public int PushDuration {
-            get {
-                return ((int)(this["PushDuration"]));
-            }
-        }
     }
 }

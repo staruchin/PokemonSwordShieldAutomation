@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.SwitchController", "Sta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.Modules.MacroExecutor", "Sta.Modules.MacroExecutor\Sta.Modules.MacroExecutor.csproj", "{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sta.AutomationMacro", "Sta.AutomationMacro\Sta.AutomationMacro.csproj", "{372C9259-B813-486E-AAA9-5B46EA768B5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372C9259-B813-486E-AAA9-5B46EA768B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372C9259-B813-486E-AAA9-5B46EA768B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372C9259-B813-486E-AAA9-5B46EA768B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372C9259-B813-486E-AAA9-5B46EA768B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F86BEAC1-5383-4FFC-88A6-34019228719F} = {F135E07C-1DED-45E1-B952-85DDA0554927}
 		{BF68560C-01C3-42E7-AD45-2629E812CC10} = {F135E07C-1DED-45E1-B952-85DDA0554927}
+		{372C9259-B813-486E-AAA9-5B46EA768B5A} = {F135E07C-1DED-45E1-B952-85DDA0554927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FA4BF73-11CC-4BDC-AA58-5AB8253E30E5}
