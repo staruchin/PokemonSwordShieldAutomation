@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using Sta.AutomationMacro;
 using Sta.SwitchController;
 using System;
 using System.Collections.ObjectModel;
@@ -18,15 +19,16 @@ namespace Sta.Modules.Controller.ViewModels
         public ReactiveProperty<string> SelectedPortName { get; }
         public ReactiveProperty<int> SelectedPortNameIndex { get; }
         public ReactiveProperty<bool> IsConnected { get; }
+        public ReactiveProperty<bool> IsBusy { get; }
 
         private ISerialPortService m_serialPort = null;
 
-        public SerialPortSelectorViewModel(ISerialPortService serialPort)
+        public SerialPortSelectorViewModel(ISerialPortService serialPort, IMacroService m_macro)
         {
             m_serialPort = serialPort;
 
-            PortNames = new ObservableCollection<string>(SerialPortService.GetPortNames());
-            //PortNames = new ObservableCollection<string>(new[] { "COM1", "COM2", "COM3", "COM4" });
+            //PortNames = new ObservableCollection<string>(SerialPortService.GetPortNames());
+            PortNames = new ObservableCollection<string>(new[] { "COM1", "COM2", "COM3", "COM4" });
 
             SelectedPortName = new ReactiveProperty<string>().AddTo(Disposables);
             SelectedPortName.Subscribe(n => Connect(n)).AddTo(Disposables);
@@ -35,6 +37,7 @@ namespace Sta.Modules.Controller.ViewModels
             SelectedPortNameIndex.Value = (PortNames.Count == 1) ? 0 : -1;
 
             IsConnected = m_serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
+            IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
         }
 
         private void Connect(string portName)

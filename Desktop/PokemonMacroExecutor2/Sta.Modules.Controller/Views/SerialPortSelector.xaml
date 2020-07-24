@@ -3,16 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:conv="clr-namespace:Sta.Modules.Controller.Converteres"
+             xmlns:ctrl="clr-namespace:Sta.Controls.Converters;assembly=Sta.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <conv:BooleanSerialPortConnectionToStringConverter x:Key="BooleanSerialPortConnectionToStringConverter"/>
+        <ctrl:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ComboBox VerticalContentAlignment="Center" ItemsSource="{Binding PortNames}" SelectedItem="{Binding SelectedPortName.Value}" SelectedIndex="{Binding SelectedPortNameIndex.Value}"/>
+        <ComboBox VerticalContentAlignment="Center"
+                  ItemsSource="{Binding PortNames}"
+                  SelectedItem="{Binding SelectedPortName.Value}"
+                  SelectedIndex="{Binding SelectedPortNameIndex.Value}"
+                  IsEnabled="{Binding IsBusy.Value, Converter={StaticResource InverseBooleanConverter}}"/>
         <TextBlock Grid.Column="1" Text="{Binding IsConnected.Value, Converter={StaticResource BooleanSerialPortConnectionToStringConverter}}" VerticalAlignment="Center" Margin="10,0"/>
     </Grid>
 </UserControl>

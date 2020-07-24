@@ -16,29 +16,54 @@ namespace Sta.AutomationMacro
         /// <inheritdoc/>
         public IGameDateManager GameDateManager { get; set; }
 
+        private bool m_isBusy = false;
+        /// <inheritdoc/>
+        public bool IsBusy
+        {
+            get { return m_isBusy; }
+            set { SetProperty(ref m_isBusy, value); }
+        }
+
+
         /// <inheritdoc/>
         public void DrawLotoId()
         {
-            while (!GameDateManager.IsEndOfDays)
+            ExecuteMacro(() =>
             {
-                //GameDateManager.IncreaseOneDay();
-
-                Controller.PressAndReleaseButton(ButtonType.A, 50, 500);
-                Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                Controller.PressAndReleaseDPad(DPadCommand.Down, 50, 200);
-                Controller.PressAndReleaseButton(ButtonType.A, 50, 800);
-
-                Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                Controller.PressAndReleaseButton(ButtonType.B, 50, 800);
-                Controller.PressAndReleaseButton(ButtonType.A, 50, 100); // レポート「はい」
-
-                for (int i = 0; i < 80; i++)
+                while (!GameDateManager.IsEndOfDays)
                 {
-                    Controller.PressAndReleaseButton(ButtonType.B, 50, 100);
-                }
+                    //GameDateManager.IncreaseOneDay();
 
-                GameDateManager.GameDate += OneDay;
+                    Controller.PressAndReleaseButton(ButtonType.A, 50, 500);
+                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
+                    Controller.PressAndReleaseDPad(DPadCommand.Down, 50, 200);
+                    Controller.PressAndReleaseButton(ButtonType.A, 50, 800);
+
+                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
+                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
+                    Controller.PressAndReleaseButton(ButtonType.B, 50, 800);
+                    Controller.PressAndReleaseButton(ButtonType.A, 50, 100); // レポート「はい」
+
+                    for (int i = 0; i < 80; i++)
+                    {
+                        Controller.PressAndReleaseButton(ButtonType.B, 50, 100);
+                    }
+
+                    GameDateManager.GameDate += OneDay;
+                }
+            });
+        }
+
+        private void ExecuteMacro(Action action)
+        {
+            try
+            {
+                IsBusy = true;
+                action?.Invoke();
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

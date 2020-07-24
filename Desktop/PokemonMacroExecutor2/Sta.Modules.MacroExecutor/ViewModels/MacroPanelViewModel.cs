@@ -27,7 +27,7 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             m_macro = macro;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
-            IsBusy = new ReactiveProperty<bool>().AddTo(Disposables);
+            IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
 
             GameDate = m_macro.GameDateManager.ToReactivePropertyAsSynchronized(m => m.GameDate).AddTo(Disposables);
             GameDate.Value = DateTime.Now;
@@ -43,16 +43,7 @@ namespace Sta.Modules.MacroExecutor.ViewModels
 
         private async void DrawLotoId()
         {
-            try
-            {
-                IsBusy.Value = true;
-
-                await Task.Run(() => m_macro.DrawLotoId());
-            }
-            finally
-            {
-                IsBusy.Value = false;
-            }
+            await Task.Run(() => m_macro.DrawLotoId());
         }
 
         public void Dispose()

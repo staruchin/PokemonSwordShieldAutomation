@@ -14,6 +14,7 @@ namespace Sta.AutomationMacro
 
         IGameDateManager GameDateManager { get; set; }
 
+        bool IsBusy { get; }
 
         void DrawLotoId();
     }
