@@ -28,9 +28,11 @@ namespace Sta.PokemonMacroExecutor2
             var controller = new SerialSwitchController();
             var serialPort = new SerialPortService();
             var macro = new MacroService();
+            var cancelableTask = new CancelableTaskService();
             var gameDate = new GameDateManager();
 
             controller.SerialPort = serialPort;
+            macro.CancelableTask = cancelableTask;
             macro.Controller = controller;
             macro.GameDateManager = gameDate;
             gameDate.Controller = controller;
@@ -38,6 +40,7 @@ namespace Sta.PokemonMacroExecutor2
             containerRegistry.RegisterInstance<ISwitchController>(controller);
             containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
             containerRegistry.RegisterInstance<IMacroService>(macro);
+            containerRegistry.RegisterInstance<ICancelableTaskService>(cancelableTask);
             containerRegistry.RegisterInstance<IGameDateManager>(gameDate);
         }
 

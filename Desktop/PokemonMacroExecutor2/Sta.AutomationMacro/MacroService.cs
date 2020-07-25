@@ -11,9 +11,9 @@ namespace Sta.AutomationMacro
 {
     public class MacroService : BindableBase, IMacroService
     {
-        /// <inheritdoc/>
+        public ICancelableTaskService CancelableTask { get; set; }
+
         public ISwitchController Controller { get; set; }
-        /// <inheritdoc/>
         public IGameDateManager GameDateManager { get; set; }
 
         private bool m_isBusy = false;
@@ -30,7 +30,7 @@ namespace Sta.AutomationMacro
         {
             ExecuteMacro(() =>
             {
-                while (!GameDateManager.IsEndOfDays)
+                while (!GameDateManager.IsEndOfDays && !CancelableTask.IsCancellationRequested)
                 {
                     //GameDateManager.IncreaseOneDay();
 
@@ -54,12 +54,14 @@ namespace Sta.AutomationMacro
             });
         }
 
-        private void ExecuteMacro(Action action)
+        private async void ExecuteMacro(Action action)
         {
+            if (IsBusy) { return; }
+
             try
             {
                 IsBusy = true;
-                action?.Invoke();
+                await CancelableTask.Run(action);
             }
             finally
             {

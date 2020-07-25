@@ -16,34 +16,47 @@ namespace Sta.Modules.MacroExecutor.ViewModels
 
         public ReactiveProperty<bool> IsConnected { get; }
         public ReactiveProperty<bool> IsBusy { get; }
+        public ReactiveProperty<bool> IsCanceling { get; set; }
 
         public ReactiveProperty<DateTime?> GameDate { get; set; }
         public ReactiveCommand DrawLotoIdCommand { get; }
+        public ReactiveCommand CancelCommand { get; }
 
         private IMacroService m_macro = null;
+        private ICancelableTaskService m_cancelableTask = null;
 
-        public MacroPanelViewModel(IMacroService macro, ISerialPortService serialPort)
+        public MacroPanelViewModel(IMacroService macro, IGameDateManager gameDate, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
         {
             m_macro = macro;
+            m_cancelableTask = cancelableTask;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
             IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
 
-            GameDate = m_macro.GameDateManager.ToReactivePropertyAsSynchronized(m => m.GameDate).AddTo(Disposables);
+            GameDate = gameDate.ToReactivePropertyAsSynchronized(m => m.GameDate).AddTo(Disposables);
             GameDate.Value = DateTime.Now;
 
-            DrawLotoIdCommand = CreateReactiveCommand().AddTo(Disposables);
+            DrawLotoIdCommand = CreateExecuteMacroCommand().AddTo(Disposables);
             DrawLotoIdCommand.Subscribe(DrawLotoId).AddTo(Disposables);
+
+            IsCanceling = m_cancelableTask.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
+            CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);
+            CancelCommand.Subscribe(Cancel);
         }
 
-        private ReactiveCommand CreateReactiveCommand()
+        private ReactiveCommand CreateExecuteMacroCommand()
         {
-            return IsConnected.CombineLatest(IsBusy, (connected, busy) => connected && !busy).ToReactiveCommand();
+            return new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand();
         }
 
-        private async void DrawLotoId()
+        private void DrawLotoId()
         {
-            await Task.Run(() => m_macro.DrawLotoId());
+            m_macro.DrawLotoId();
+        }
+
+        private void Cancel()
+        {
+            m_cancelableTask.Cancel();
         }
 
         public void Dispose()

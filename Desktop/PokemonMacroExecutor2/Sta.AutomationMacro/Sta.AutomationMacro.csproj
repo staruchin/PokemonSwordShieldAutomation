@@ -49,8 +49,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncLock.cs" />
+    <Compile Include="CancelableTaskService.cs" />
     <Compile Include="GameDateManager.cs" />
     <Compile Include="IGameDateManager.cs" />
+    <Compile Include="ICancelableTaskService.cs" />
     <Compile Include="IMacroService.cs" />
     <Compile Include="MacroService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

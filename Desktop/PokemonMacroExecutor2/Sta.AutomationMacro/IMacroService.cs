@@ -10,10 +10,6 @@ namespace Sta.AutomationMacro
 {
     public interface IMacroService : INotifyPropertyChanged
     {
-        ISwitchController Controller { get; set; }
-
-        IGameDateManager GameDateManager { get; set; }
-
         bool IsBusy { get; }
 
         void DrawLotoId();
