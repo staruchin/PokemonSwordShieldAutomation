@@ -17,6 +17,8 @@ namespace Sta.Modules.Controller.ViewModels
         public ReactiveProperty<bool> IsBusy { get; }
 
         public ReactiveCommand<ButtonType?> PushButtonCommand { get; }
+        public ReactiveCommand<DPadCommand?> PushDPadCommand { get; }
+        public ReactiveCommand<StickParameter> MoveStickCommand { get; }
 
         private ISwitchController m_switchController = null;
 
@@ -29,16 +31,27 @@ namespace Sta.Modules.Controller.ViewModels
 
             PushButtonCommand = new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand<ButtonType?>().AddTo(Disposables);
             PushButtonCommand.Subscribe(PushButton).AddTo(Disposables);
+
+            PushDPadCommand = new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand<DPadCommand?>().AddTo(Disposables);
+            PushDPadCommand.Subscribe(PushDPad).AddTo(Disposables);
+
+            MoveStickCommand = new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand<StickParameter>().AddTo(Disposables);
+            MoveStickCommand.Subscribe(MoveStick).AddTo(Disposables);
         }
 
         private void PushButton(ButtonType? button)
         {
-            if (!button.HasValue)
-            {
-                return;
-            }
+            m_switchController.PressAndRelease(button.Value, Properties.Settings.Default.PressAndReleaseButtonDuration);
+        }
 
-            m_switchController.PressAndRelease(button.Value, Properties.Settings.Default.PressAndReleaseDuration);
+        private void PushDPad(DPadCommand? dPad)
+        {
+            m_switchController.PressAndRelease(dPad.Value, Properties.Settings.Default.PressAndReleaseDPadDuration);
+        }
+
+        private void MoveStick(StickParameter stick)
+        {
+            m_switchController.MoveAndRelease(stick.StickType, stick.X, stick.Y, Properties.Settings.Default.MoveAndReleaseStickDuration);
         }
 
         public void Dispose()

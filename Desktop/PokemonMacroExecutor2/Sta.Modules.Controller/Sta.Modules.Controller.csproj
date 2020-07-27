@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="ViewModels\ControllerPanelViewModel.cs" />
     <Compile Include="ViewModels\SerialPortSelectorViewModel.cs" />
+    <Compile Include="ViewModels\StickParameter.cs" />
     <Compile Include="Views\ControllerPanel.xaml.cs">
       <DependentUpon>ControllerPanel.xaml</DependentUpon>
     </Compile>

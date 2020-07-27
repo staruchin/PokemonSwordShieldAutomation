@@ -3,11 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:prism="http://prismlibrary.com/"   
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="clr-namespace:Sta.Modules.Controller.ViewModels"
              xmlns:switchCtrl="clr-namespace:Sta.SwitchController;assembly=Sta.SwitchController"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600"          
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <vm:StickParameter x:Key="LeftStickUp"         StickType="Left"  X="128" Y="0"/>
+        <vm:StickParameter x:Key="LeftStickUpLeft"     StickType="Left"  X="0"   Y="0"/>
+        <vm:StickParameter x:Key="LeftStickLeft"       StickType="Left"  X="0"   Y="128"/>
+        <vm:StickParameter x:Key="LeftStickDownLeft"   StickType="Left"  X="0"   Y="255"/>
+        <vm:StickParameter x:Key="LeftStickDown"       StickType="Left"  X="128" Y="255"/>
+        <vm:StickParameter x:Key="LeftStickDownRight"  StickType="Left"  X="255" Y="255"/>
+        <vm:StickParameter x:Key="LeftStickRight"      StickType="Left"  X="255" Y="128"/>
+        <vm:StickParameter x:Key="LeftStickUpRight"    StickType="Left"  X="255" Y="0"/>
+        <vm:StickParameter x:Key="RightStickUp"        StickType="Right" X="128" Y="0"/>
+        <vm:StickParameter x:Key="RightStickUpLeft"    StickType="Right" X="0"   Y="0"/>
+        <vm:StickParameter x:Key="RightStickLeft"      StickType="Right" X="0"   Y="128"/>
+        <vm:StickParameter x:Key="RightStickDownLeft"  StickType="Right" X="0"   Y="255"/>
+        <vm:StickParameter x:Key="RightStickDown"      StickType="Right" X="128" Y="255"/>
+        <vm:StickParameter x:Key="RightStickDownRight" StickType="Right" X="255" Y="255"/>
+        <vm:StickParameter x:Key="RightStickRight"     StickType="Right" X="255" Y="128"/>
+        <vm:StickParameter x:Key="RightStickUpRight"   StickType="Right" X="255" Y="0"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -28,22 +47,47 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <!-- Button -->
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.A}" Content="A" Grid.Column="7" Grid.Row="2"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.B}" Content="B" Grid.Column="6" Grid.Row="3"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.X}" Content="X" Grid.Column="6" Grid.Row="1"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Y}" Content="Y" Grid.Column="5" Grid.Row="2"/>
-        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.L}" Content="L" Grid.Column="2"/>
-        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.R}" Content="R" Grid.Column="5"/>
-        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZL}" Content="ZL"/>
-        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZR}" Content="ZR" Grid.Column="7"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.L}" Content="L"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.R}" Content="R" Grid.Column="7"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZL}" Content="ZL" Grid.Column="2"/>
+        <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.ZR}" Content="ZR" Grid.Column="5"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Minus}" Content="-" Grid.Column="3" Grid.Row="1"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Plus}" Content="+" Grid.Column="4" Grid.Row="1"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.LeftStick}" Content="LStick" Grid.Column="1" Grid.Row="2"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.RightStick}" Content="RStick" Grid.Column="6" Grid.Row="5"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Home}" Content="Home" Grid.Column="4" Grid.Row="5"/>
         <Button Command="{Binding PushButtonCommand}" CommandParameter="{x:Static switchCtrl:ButtonType.Capture}" Content="Capture" Grid.Column="3" Grid.Row="5"/>
-
-
-
+        <!-- D-Pad -->
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.Up}" Content="Up" Grid.Column="1" Grid.Row="4"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.UpLeft}" Content="Up-Left" Grid.Row="4"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.Left}" Content="Left" Grid.Row="5"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.DownLeft}" Content="Down-Left" Grid.Row="6"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.Down}" Content="Down" Grid.Row="6" Grid.Column="1"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.DownRight}" Content="Down-Right" Grid.Row="6" Grid.Column="2"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.Right}" Content="Right" Grid.Row="5" Grid.Column="2"/>
+        <Button Command="{Binding PushDPadCommand}" CommandParameter="{x:Static switchCtrl:DPadCommand.UpRight}" Content="Up-Right" Grid.Row="4" Grid.Column="2"/>
+        <!-- Left Stick -->
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickUp}" Content="Up" Grid.Column="1" Grid.Row="1"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickUpLeft}" Content="Up-Left" Grid.Row="1"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickLeft}" Content="Left" Grid.Row="2"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickDownLeft}" Content="Down-Left" Grid.Row="3"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickDown}" Content="Down" Grid.Row="3" Grid.Column="1"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickDownRight}" Content="Down-Right" Grid.Row="3" Grid.Column="2"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickRight}" Content="Right" Grid.Column="2" Grid.Row="2"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource LeftStickUpRight}" Content="Up-Right" Grid.Column="2" Grid.Row="1"/>
+        <!-- Right Stick -->
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickUp}" Content="Up" Grid.Column="6" Grid.Row="4"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickUpLeft}" Content="Up-Left" Grid.Row="4" Grid.Column="5"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickLeft}" Content="Left" Grid.Row="5" Grid.Column="5"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickDownLeft}" Content="Down-Left" Grid.Row="6" Grid.Column="5"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickDown}" Content="Down" Grid.Row="6" Grid.Column="6"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickDownRight}" Content="Down-Right" Grid.Row="6" Grid.Column="7"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickRight}" Content="Right" Grid.Column="7" Grid.Row="5"/>
+        <Button Command="{Binding MoveStickCommand}" CommandParameter="{StaticResource RightStickUpRight}" Content="Up-Right" Grid.Column="7" Grid.Row="4"/>
     </Grid>
 </UserControl>

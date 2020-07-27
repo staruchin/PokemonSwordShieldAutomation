@@ -26,9 +26,27 @@ namespace Sta.Modules.Controller.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public int PressAndReleaseDuration {
+        public int PressAndReleaseButtonDuration {
             get {
-                return ((int)(this["PressAndReleaseDuration"]));
+                return ((int)(this["PressAndReleaseButtonDuration"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int PressAndReleaseDPadDuration {
+            get {
+                return ((int)(this["PressAndReleaseDPadDuration"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int MoveAndReleaseStickDuration {
+            get {
+                return ((int)(this["MoveAndReleaseStickDuration"]));
             }
         }
     }
