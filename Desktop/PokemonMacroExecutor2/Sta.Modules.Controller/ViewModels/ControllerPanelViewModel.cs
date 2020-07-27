@@ -38,7 +38,7 @@ namespace Sta.Modules.Controller.ViewModels
                 return;
             }
 
-            m_switchController.PressAndReleaseButton(button.Value, Properties.Settings.Default.PressAndReleaseDuration);
+            m_switchController.PressAndRelease(button.Value, Properties.Settings.Default.PressAndReleaseDuration);
         }
 
         public void Dispose()

@@ -18,14 +18,14 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         public ReactiveProperty<bool> IsBusy { get; }
         public ReactiveProperty<bool> IsCanceling { get; set; }
 
-        public ReactiveProperty<DateTime?> GameDate { get; set; }
+        public ReactiveProperty<DateTime?> Clock { get; set; }
         public ReactiveCommand DrawLotoIdCommand { get; }
         public ReactiveCommand CancelCommand { get; }
 
         private IMacroService m_macro = null;
         private ICancelableTaskService m_cancelableTask = null;
 
-        public MacroPanelViewModel(IMacroService macro, IGameDateManager gameDate, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
+        public MacroPanelViewModel(IMacroService macro, ISwitchClock clock, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
         {
             m_macro = macro;
             m_cancelableTask = cancelableTask;
@@ -33,8 +33,8 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
             IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
 
-            GameDate = gameDate.ToReactivePropertyAsSynchronized(m => m.GameDate).AddTo(Disposables);
-            GameDate.Value = DateTime.Now;
+            Clock = clock.ToReactivePropertyAsSynchronized(m => m.DateTime).AddTo(Disposables);
+            Clock.Value = DateTime.Now;
 
             DrawLotoIdCommand = CreateExecuteMacroCommand().AddTo(Disposables);
             DrawLotoIdCommand.Subscribe(DrawLotoId).AddTo(Disposables);

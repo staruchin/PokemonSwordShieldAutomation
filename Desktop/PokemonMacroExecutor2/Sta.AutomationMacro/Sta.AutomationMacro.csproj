@@ -51,8 +51,9 @@
   <ItemGroup>
     <Compile Include="AsyncLock.cs" />
     <Compile Include="CancelableTaskService.cs" />
-    <Compile Include="GameDateManager.cs" />
-    <Compile Include="IGameDateManager.cs" />
+    <Compile Include="ICancellationRequest.cs" />
+    <Compile Include="SwitchClock.cs" />
+    <Compile Include="ISwitchClock.cs" />
     <Compile Include="ICancelableTaskService.cs" />
     <Compile Include="IMacroService.cs" />
     <Compile Include="MacroService.cs" />

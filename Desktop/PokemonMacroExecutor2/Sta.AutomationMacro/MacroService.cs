@@ -14,7 +14,7 @@ namespace Sta.AutomationMacro
         public ICancelableTaskService CancelableTask { get; set; }
 
         public ISwitchController Controller { get; set; }
-        public IGameDateManager GameDateManager { get; set; }
+        public ISwitchClock Clock { get; set; }
 
         private bool m_isBusy = false;
         /// <inheritdoc/>
@@ -30,26 +30,24 @@ namespace Sta.AutomationMacro
         {
             ExecuteMacro(() =>
             {
-                while (!GameDateManager.IsEndOfDays && !CancelableTask.IsCancellationRequested)
+                while (!Clock.IsEndOfDays && !CancelableTask.IsCancellationRequested)
                 {
-                    //GameDateManager.IncreaseOneDay();
+                    Clock.IncreaseOneDayFromGameScreen();
 
-                    Controller.PressAndReleaseButton(ButtonType.A, 50, 500);
-                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                    Controller.PressAndReleaseDPad(DPadCommand.Down, 50, 200);
-                    Controller.PressAndReleaseButton(ButtonType.A, 50, 800);
+                    Controller.PressAndRelease(ButtonType.A, 50, 500);
+                    Controller.PressAndRelease(ButtonType.B, 50, 500);
+                    Controller.PressAndRelease(DPadCommand.Down, 50, 200);
+                    Controller.PressAndRelease(ButtonType.A, 50, 800);
 
-                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                    Controller.PressAndReleaseButton(ButtonType.B, 50, 500);
-                    Controller.PressAndReleaseButton(ButtonType.B, 50, 800);
-                    Controller.PressAndReleaseButton(ButtonType.A, 50, 100); // レポート「はい」
+                    Controller.PressAndRelease(ButtonType.B, 50, 500);
+                    Controller.PressAndRelease(ButtonType.B, 50, 500);
+                    Controller.PressAndRelease(ButtonType.B, 50, 800);
+                    Controller.PressAndRelease(ButtonType.A, 50, 100); // レポート「はい」
 
                     for (int i = 0; i < 80; i++)
                     {
-                        Controller.PressAndReleaseButton(ButtonType.B, 50, 100);
+                        Controller.PressAndRelease(ButtonType.B, 50, 100);
                     }
-
-                    GameDateManager.GameDate += OneDay;
                 }
             });
         }
@@ -68,7 +66,5 @@ namespace Sta.AutomationMacro
                 IsBusy = false;
             }
         }
-
-        private static TimeSpan OneDay { get; } = TimeSpan.FromDays(1);
     }
 }

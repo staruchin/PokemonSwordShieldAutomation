@@ -5,7 +5,7 @@ namespace Sta.SwitchController
 {
     public static class SwitchControllerExtensions
     {
-        public static void PressAndReleaseButton(this ISwitchController controller, ButtonType button, int duration, int wait = 0)
+        public static void PressAndRelease(this ISwitchController controller, ButtonType button, int duration, int wait = 0)
         {
             if (controller == null) { throw new ArgumentNullException(nameof(controller)); }
 
@@ -15,7 +15,7 @@ namespace Sta.SwitchController
             Thread.Sleep(wait);
         }
 
-        public static void PressAndReleaseDPad(this ISwitchController controller, DPadCommand dPad, int duration, int wait = 0)
+        public static void PressAndRelease(this ISwitchController controller, DPadCommand dPad, int duration, int wait = 0)
         {
             if (controller == null) { throw new ArgumentNullException(nameof(controller)); }
 
@@ -25,7 +25,7 @@ namespace Sta.SwitchController
             Thread.Sleep(wait);
         }
 
-        public static void MoveAndReleaseStick(this ISwitchController controller, StickType stick, byte x, byte y, int duration, int wait = 0)
+        public static void MoveAndRelease(this ISwitchController controller, StickType stick, byte x, byte y, int duration, int wait = 0)
         {
             if (controller == null) { throw new ArgumentNullException(nameof(controller)); }
 

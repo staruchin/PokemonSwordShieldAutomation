@@ -29,19 +29,20 @@ namespace Sta.PokemonMacroExecutor2
             var serialPort = new SerialPortService();
             var macro = new MacroService();
             var cancelableTask = new CancelableTaskService();
-            var gameDate = new GameDateManager();
+            var clock = new SwitchClock();
 
             controller.SerialPort = serialPort;
             macro.CancelableTask = cancelableTask;
             macro.Controller = controller;
-            macro.GameDateManager = gameDate;
-            gameDate.Controller = controller;
+            macro.Clock = clock;
+            clock.Controller = controller;
+            clock.Cancellation = cancelableTask;
 
             containerRegistry.RegisterInstance<ISwitchController>(controller);
             containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
             containerRegistry.RegisterInstance<IMacroService>(macro);
             containerRegistry.RegisterInstance<ICancelableTaskService>(cancelableTask);
-            containerRegistry.RegisterInstance<IGameDateManager>(gameDate);
+            containerRegistry.RegisterInstance<ISwitchClock>(clock);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
