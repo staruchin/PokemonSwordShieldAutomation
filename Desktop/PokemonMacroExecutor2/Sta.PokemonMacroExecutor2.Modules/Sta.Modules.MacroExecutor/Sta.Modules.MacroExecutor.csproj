@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BF68560C-01C3-42E7-AD45-2629E812CC10}</ProjectGuid>
+    <ProjectGuid>{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sta.SwitchController</RootNamespace>
-    <AssemblyName>Sta.SwitchController</AssemblyName>
+    <RootNamespace>Sta.Modules.MacroExecutor</RootNamespace>
+    <AssemblyName>Sta.Modules.MacroExecutor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,9 +49,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums.cs" />
-    <Compile Include="ISerialPortService.cs" />
-    <Compile Include="ISwitchController.cs" />
+    <Compile Include="Converters\BooleanCancelingStatusToStringCancelButtonContentConverter.cs" />
+    <Compile Include="MacroExecutorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -65,14 +64,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SerialPortService.cs" />
-    <Compile Include="SerialSwitchController.cs" />
-    <Compile Include="SwitchControllerExtensions.cs" />
+    <Compile Include="ViewModels\MacroPanelViewModel.cs" />
+    <Compile Include="Views\MacroPanel.xaml.cs">
+      <DependentUpon>MacroPanel.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,13 +79,34 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sta.Utilities\Sta.Utilities.csproj">
+    <ProjectReference Include="..\..\Models\Sta.AutomationMacro\Sta.AutomationMacro.csproj">
+      <Project>{372C9259-B813-486E-AAA9-5B46EA768B5A}</Project>
+      <Name>Sta.AutomationMacro</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Sta.Controls\Sta.Controls.csproj">
+      <Project>{40ba3c0c-e696-46ff-99b0-3a3968b981b7}</Project>
+      <Name>Sta.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Sta.SwitchController\Sta.SwitchController.csproj">
+      <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
+      <Name>Sta.SwitchController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Sta.Utilities\Sta.Utilities.csproj">
       <Project>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</Project>
       <Name>Sta.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\MacroPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
+    <PackageReference Include="ReactiveProperty">
+      <Version>7.1.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

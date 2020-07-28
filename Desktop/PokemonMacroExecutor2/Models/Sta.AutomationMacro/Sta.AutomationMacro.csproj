@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}</ProjectGuid>
+    <ProjectGuid>{372C9259-B813-486E-AAA9-5B46EA768B5A}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sta.Modules.Controller</RootNamespace>
-    <AssemblyName>Sta.Modules.Controller</AssemblyName>
+    <RootNamespace>Sta.AutomationMacro</RootNamespace>
+    <AssemblyName>Sta.AutomationMacro</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,8 +49,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerModule.cs" />
-    <Compile Include="Converteres\BooleanSerialPortConnectionToStringConverter.cs" />
+    <Compile Include="AsyncLock.cs" />
+    <Compile Include="CancelableTaskService.cs" />
+    <Compile Include="ICancellationRequest.cs" />
+    <Compile Include="SwitchClock.cs" />
+    <Compile Include="ISwitchClock.cs" />
+    <Compile Include="ICancelableTaskService.cs" />
+    <Compile Include="IMacroService.cs" />
+    <Compile Include="MacroService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,20 +70,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\ControllerPanelViewModel.cs" />
-    <Compile Include="ViewModels\SerialPortSelectorViewModel.cs" />
-    <Compile Include="ViewModels\StickParameter.cs" />
-    <Compile Include="Views\ControllerPanel.xaml.cs">
-      <DependentUpon>ControllerPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SerialPortSelector.xaml.cs">
-      <DependentUpon>SerialPortSelector.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -85,34 +81,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sta.Controls\Sta.Controls.csproj">
-      <Project>{40ba3c0c-e696-46ff-99b0-3a3968b981b7}</Project>
-      <Name>Sta.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sta.SwitchController\Sta.SwitchController.csproj">
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sta.Utilities\Sta.Utilities.csproj">
+    <ProjectReference Include="..\..\Common\Sta.Utilities\Sta.Utilities.csproj">
       <Project>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</Project>
       <Name>Sta.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
-    <PackageReference Include="ReactiveProperty">
-      <Version>7.1.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Views\ControllerPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SerialPortSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
