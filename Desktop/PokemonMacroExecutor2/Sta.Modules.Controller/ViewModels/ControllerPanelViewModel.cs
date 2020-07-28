@@ -1,11 +1,12 @@
 ﻿using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using Sta.AutomationMacro;
 using Sta.SwitchController;
+using Sta.Utilities;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace Sta.Modules.Controller.ViewModels
 {
@@ -22,12 +23,12 @@ namespace Sta.Modules.Controller.ViewModels
 
         private ISwitchController m_switchController = null;
 
-        public ControllerPanelViewModel(ISwitchController controller, ISerialPortService serialPort, IMacroService macro)
+        public ControllerPanelViewModel(ISwitchController controller, ISerialPortService serialPort, IWorkSituation work)
         {
             m_switchController = controller;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
-            IsBusy = macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
+            IsBusy = work.ObserveProperty(w => w.IsBusy).ToReactiveProperty().AddTo(Disposables);
 
             PushButtonCommand = new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand<ButtonType?>().AddTo(Disposables);
             PushButtonCommand.Subscribe(PushButton).AddTo(Disposables);
@@ -41,17 +42,26 @@ namespace Sta.Modules.Controller.ViewModels
 
         private void PushButton(ButtonType? button)
         {
-            m_switchController.PressAndRelease(button.Value, Properties.Settings.Default.PressAndReleaseButtonDuration);
+            Task.Run(() =>
+            {
+                m_switchController.PressAndRelease(button.Value, Properties.Settings.Default.PressAndReleaseButtonDuration);
+            });
         }
 
         private void PushDPad(DPadCommand? dPad)
         {
-            m_switchController.PressAndRelease(dPad.Value, Properties.Settings.Default.PressAndReleaseDPadDuration);
+            Task.Run(() =>
+            {
+                m_switchController.PressAndRelease(dPad.Value, Properties.Settings.Default.PressAndReleaseDPadDuration);
+            });
         }
 
         private void MoveStick(StickParameter stick)
         {
-            m_switchController.MoveAndRelease(stick.StickType, stick.X, stick.Y, Properties.Settings.Default.MoveAndReleaseStickDuration);
+            Task.Run(() =>
+            {
+                m_switchController.MoveAndRelease(stick.StickType, stick.X, stick.Y, Properties.Settings.Default.MoveAndReleaseStickDuration);
+            });
         }
 
         public void Dispose()

@@ -4,20 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7215E290-2486-4473-AF33-F4124D3A6DBB}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sta.PokemonMacroExecutor2</RootNamespace>
-    <AssemblyName>Sta.PokemonMacroExecutor2</AssemblyName>
+    <RootNamespace>Sta.Utilities</RootNamespace>
+    <AssemblyName>Sta.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -38,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,25 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="IWorkSituation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,52 +63,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="WorkSituation.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sta.AutomationMacro\Sta.AutomationMacro.csproj">
-      <Project>{372C9259-B813-486E-AAA9-5B46EA768B5A}</Project>
-      <Name>Sta.AutomationMacro</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.CaptureBoard\Sta.CaptureBoard.csproj">
-      <Project>{F86BEAC1-5383-4FFC-88A6-34019228719F}</Project>
-      <Name>Sta.CaptureBoard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.Controls\Sta.Controls.csproj">
-      <Project>{40ba3c0c-e696-46ff-99b0-3a3968b981b7}</Project>
-      <Name>Sta.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.Modules.Controller\Sta.Modules.Controller.csproj">
-      <Project>{B0745CB3-F84F-448E-81DC-C0BE8C52C5AA}</Project>
-      <Name>Sta.Modules.Controller</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.Modules.ImageViewer\Sta.Modules.ImageViewer.csproj">
-      <Project>{AC46C47D-0000-42E2-AAF5-661B3E295211}</Project>
-      <Name>Sta.Modules.ImageViewer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.Modules.MacroExecutor\Sta.Modules.MacroExecutor.csproj">
-      <Project>{3707FEA0-E4E6-4F14-88A2-0DE1065EB0A3}</Project>
-      <Name>Sta.Modules.MacroExecutor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.SwitchController\Sta.SwitchController.csproj">
-      <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
-      <Name>Sta.SwitchController</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sta.Utilities\Sta.Utilities.csproj">
-      <Project>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</Project>
-      <Name>Sta.Utilities</Name>
-    </ProjectReference>
+    <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

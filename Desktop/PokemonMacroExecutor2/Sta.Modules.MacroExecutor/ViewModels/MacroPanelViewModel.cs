@@ -3,6 +3,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Sta.AutomationMacro;
 using Sta.SwitchController;
+using Sta.Utilities;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -25,13 +26,13 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         private IMacroService m_macro = null;
         private ICancelableTaskService m_cancelableTask = null;
 
-        public MacroPanelViewModel(IMacroService macro, ISwitchClock clock, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
+        public MacroPanelViewModel(IMacroService macro, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
         {
             m_macro = macro;
             m_cancelableTask = cancelableTask;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
-            IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
+            IsBusy = work.ObserveProperty(w => w.IsBusy).ToReactiveProperty().AddTo(Disposables);
 
             Clock = clock.ToReactivePropertyAsSynchronized(m => m.DateTime).AddTo(Disposables);
             Clock.Value = DateTime.Now;

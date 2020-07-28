@@ -1,8 +1,8 @@
 ﻿using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using Sta.AutomationMacro;
 using Sta.SwitchController;
+using Sta.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,7 +23,7 @@ namespace Sta.Modules.Controller.ViewModels
 
         private ISerialPortService m_serialPort = null;
 
-        public SerialPortSelectorViewModel(ISerialPortService serialPort, IMacroService m_macro)
+        public SerialPortSelectorViewModel(ISerialPortService serialPort, IWorkSituation work)
         {
             m_serialPort = serialPort;
 
@@ -37,7 +37,7 @@ namespace Sta.Modules.Controller.ViewModels
             SelectedPortNameIndex.Value = (PortNames.Count == 1) ? 0 : -1;
 
             IsConnected = m_serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
-            IsBusy = m_macro.ObserveProperty(m => m.IsBusy).ToReactiveProperty().AddTo(Disposables);
+            IsBusy = work.ObserveProperty(w => w.IsBusy).ToReactiveProperty().AddTo(Disposables);
         }
 
         private void Connect(string portName)

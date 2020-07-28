@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Sta.SwitchController;
+using Sta.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,15 +16,13 @@ namespace Sta.AutomationMacro
 
         public ISwitchController Controller { get; set; }
         public ISwitchClock Clock { get; set; }
+        public IWorkSituation Work { get; set; }
 
-        private bool m_isBusy = false;
-        /// <inheritdoc/>
-        public bool IsBusy
+        private bool IsBusy
         {
-            get { return m_isBusy; }
-            set { SetProperty(ref m_isBusy, value); }
+            get { return Work.IsBusy; }
+            set { Work.IsBusy = value; }
         }
-
 
         /// <inheritdoc/>
         public void DrawLotoId()

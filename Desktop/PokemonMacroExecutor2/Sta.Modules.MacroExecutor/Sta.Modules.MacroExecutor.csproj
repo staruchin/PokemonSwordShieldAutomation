@@ -91,6 +91,10 @@
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sta.Utilities\Sta.Utilities.csproj">
+      <Project>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</Project>
+      <Name>Sta.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\MacroPanel.xaml">

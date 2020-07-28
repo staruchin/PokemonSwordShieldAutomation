@@ -85,10 +85,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sta.AutomationMacro\Sta.AutomationMacro.csproj">
-      <Project>{372C9259-B813-486E-AAA9-5B46EA768B5A}</Project>
-      <Name>Sta.AutomationMacro</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sta.Controls\Sta.Controls.csproj">
       <Project>{40ba3c0c-e696-46ff-99b0-3a3968b981b7}</Project>
       <Name>Sta.Controls</Name>
@@ -96,6 +92,10 @@
     <ProjectReference Include="..\Sta.SwitchController\Sta.SwitchController.csproj">
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sta.Utilities\Sta.Utilities.csproj">
+      <Project>{693C16DF-C446-4E87-8A9D-B8F182B730F9}</Project>
+      <Name>Sta.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -10,8 +10,6 @@ namespace Sta.AutomationMacro
 {
     public interface IMacroService : INotifyPropertyChanged
     {
-        bool IsBusy { get; }
-
         void DrawLotoId();
     }
 }
