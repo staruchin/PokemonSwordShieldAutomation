@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro
 {
-    public class CancelableTaskService : BindableBase, ICancelableTaskService
+    public class CancelableTaskService : BindableBase, ITaskService, ICanceler, ICancellationRequest
     {
         private AsyncLock m_lock = new AsyncLock();
         private CancellationTokenSource m_cts = null;

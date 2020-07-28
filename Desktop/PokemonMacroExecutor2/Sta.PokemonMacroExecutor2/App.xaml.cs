@@ -32,19 +32,21 @@ namespace Sta.PokemonMacroExecutor2
             var cancelableTask = new CancelableTaskService();
             var clock = new SwitchClock();
             var work = new WorkSituation();
+            var macroPool = new MacroPool(clock, controller, cancelableTask);
 
             controller.SerialPort = serialPort;
-            macro.CancelableTask = cancelableTask;
-            macro.Controller = controller;
-            macro.Clock = clock;
+            macro.TaskService = cancelableTask;
             macro.Work = work;
+            macro.MacroPool = macroPool;
             clock.Controller = controller;
             clock.Cancellation = cancelableTask;
 
             containerRegistry.RegisterInstance<ISwitchController>(controller);
             containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
             containerRegistry.RegisterInstance<IMacroService>(macro);
-            containerRegistry.RegisterInstance<ICancelableTaskService>(cancelableTask);
+            containerRegistry.RegisterInstance<ITaskService>(cancelableTask);
+            containerRegistry.RegisterInstance<ICanceler>(cancelableTask);
+            containerRegistry.RegisterInstance<ICancellationRequest>(cancelableTask);
             containerRegistry.RegisterInstance<ISwitchClock>(clock);
             containerRegistry.RegisterInstance<IWorkSituation>(work);
         }

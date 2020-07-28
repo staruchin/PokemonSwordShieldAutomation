@@ -21,15 +21,16 @@ namespace Sta.Modules.MacroExecutor.ViewModels
 
         public ReactiveProperty<DateTime?> Clock { get; set; }
         public ReactiveCommand DrawLotoIdCommand { get; }
+        public ReactiveCommand BattleMaxRaidCommand { get; }
         public ReactiveCommand CancelCommand { get; }
 
         private IMacroService m_macro = null;
-        private ICancelableTaskService m_cancelableTask = null;
+        private ICanceler m_macroCanceler = null;
 
-        public MacroPanelViewModel(IMacroService macro, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancelableTaskService cancelableTask)
+        public MacroPanelViewModel(IMacroService macro, ICanceler canceler, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancellationRequest cancelRequest)
         {
             m_macro = macro;
-            m_cancelableTask = cancelableTask;
+            m_macroCanceler = canceler;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
             IsBusy = work.ObserveProperty(w => w.IsBusy).ToReactiveProperty().AddTo(Disposables);
@@ -38,26 +39,18 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             Clock.Value = DateTime.Now;
 
             DrawLotoIdCommand = CreateExecuteMacroCommand().AddTo(Disposables);
-            DrawLotoIdCommand.Subscribe(DrawLotoId).AddTo(Disposables);
+            DrawLotoIdCommand.Subscribe(m_macro.DrawLotoId).AddTo(Disposables);
+            BattleMaxRaidCommand = CreateExecuteMacroCommand().AddTo(Disposables);
+            BattleMaxRaidCommand.Subscribe(m_macro.BattleMaxRaid).AddTo(Disposables);
 
-            IsCanceling = m_cancelableTask.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
+            IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);
-            CancelCommand.Subscribe(Cancel);
+            CancelCommand.Subscribe(m_macroCanceler.Cancel);
         }
 
         private ReactiveCommand CreateExecuteMacroCommand()
         {
             return new[] { IsConnected, IsBusy }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand();
-        }
-
-        private void DrawLotoId()
-        {
-            m_macro.DrawLotoId();
-        }
-
-        private void Cancel()
-        {
-            m_cancelableTask.Cancel();
         }
 
         public void Dispose()

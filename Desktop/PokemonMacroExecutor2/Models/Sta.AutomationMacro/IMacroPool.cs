@@ -1,16 +1,14 @@
-﻿using Sta.SwitchController;
+﻿using Sta.AutomationMacro.Macro;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro
 {
-    public interface IMacroService
+    public interface IMacroPool
     {
-        void DrawLotoId();
-        void BattleMaxRaid();
+        IMacro Get<T>() where T : IMacro;
     }
 }

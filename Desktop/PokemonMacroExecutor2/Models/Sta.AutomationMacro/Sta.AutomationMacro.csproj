@@ -51,10 +51,17 @@
   <ItemGroup>
     <Compile Include="AsyncLock.cs" />
     <Compile Include="CancelableTaskService.cs" />
+    <Compile Include="ICanceler.cs" />
     <Compile Include="ICancellationRequest.cs" />
+    <Compile Include="IMacroPool.cs" />
+    <Compile Include="MacroPool.cs" />
+    <Compile Include="Macro\AbstractMacro.cs" />
+    <Compile Include="Macro\BattleMaxRaidMacro.cs" />
+    <Compile Include="Macro\DrawLotoIdMacro.cs" />
+    <Compile Include="Macro\IMacro.cs" />
     <Compile Include="SwitchClock.cs" />
     <Compile Include="ISwitchClock.cs" />
-    <Compile Include="ICancelableTaskService.cs" />
+    <Compile Include="ITaskService.cs" />
     <Compile Include="IMacroService.cs" />
     <Compile Include="MacroService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

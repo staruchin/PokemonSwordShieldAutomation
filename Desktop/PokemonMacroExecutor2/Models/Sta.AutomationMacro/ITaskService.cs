@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro
 {
-    public interface ICancelableTaskService : ICancellationRequest, INotifyPropertyChanged
+    public interface ITaskService
     {
-        void Cancel();
-
         Task Run(Action action);
         Task<TResult> Run<TResult>(Func<TResult> function);
     }

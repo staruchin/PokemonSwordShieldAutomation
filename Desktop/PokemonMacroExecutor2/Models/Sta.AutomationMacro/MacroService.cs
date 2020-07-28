@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Sta.AutomationMacro.Macro;
 using Sta.SwitchController;
 using Sta.Utilities;
 using System;
@@ -10,13 +11,23 @@ using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro
 {
-    public class MacroService : BindableBase, IMacroService
+    public class MacroService : IMacroService
     {
-        public ICancelableTaskService CancelableTask { get; set; }
-
-        public ISwitchController Controller { get; set; }
-        public ISwitchClock Clock { get; set; }
+        public IMacroPool MacroPool { get; set; }
+        public ITaskService TaskService { get; set; }
         public IWorkSituation Work { get; set; }
+
+
+        /// <inheritdoc/>
+        public void DrawLotoId()
+        {
+            Execute<DrawLotoIdMacro>();
+        }
+
+        public void BattleMaxRaid()
+        {
+            Execute<BattleMaxRaidMacro>();
+        }
 
         private bool IsBusy
         {
@@ -24,41 +35,14 @@ namespace Sta.AutomationMacro
             set { Work.IsBusy = value; }
         }
 
-        /// <inheritdoc/>
-        public void DrawLotoId()
-        {
-            ExecuteMacro(() =>
-            {
-                while (!Clock.IsEndOfDays && !CancelableTask.IsCancellationRequested)
-                {
-                    Clock.IncreaseOneDayFromGameScreen();
-
-                    Controller.PressAndRelease(ButtonType.A, 50, 500);
-                    Controller.PressAndRelease(ButtonType.B, 50, 500);
-                    Controller.PressAndRelease(DPadCommand.Down, 50, 200);
-                    Controller.PressAndRelease(ButtonType.A, 50, 800);
-
-                    Controller.PressAndRelease(ButtonType.B, 50, 500);
-                    Controller.PressAndRelease(ButtonType.B, 50, 500);
-                    Controller.PressAndRelease(ButtonType.B, 50, 800);
-                    Controller.PressAndRelease(ButtonType.A, 50, 100); // レポート「はい」
-
-                    for (int i = 0; i < 80; i++)
-                    {
-                        Controller.PressAndRelease(ButtonType.B, 50, 100);
-                    }
-                }
-            });
-        }
-
-        private async void ExecuteMacro(Action action)
+        private async void Execute<T>() where T : IMacro
         {
             if (IsBusy) { return; }
 
             try
             {
                 IsBusy = true;
-                await CancelableTask.Run(action);
+                await TaskService.Run(MacroPool.Get<T>().Execute);
             }
             finally
             {
