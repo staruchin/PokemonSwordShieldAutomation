@@ -2,12 +2,15 @@
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Sta.AutomationMacro;
+using Sta.CaptureBoard;
 using Sta.SwitchController;
 using Sta.Utilities;
 using System;
+using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using static System.Environment;
 
 namespace Sta.Modules.MacroExecutor.ViewModels
 {
@@ -23,11 +26,12 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         public ReactiveCommand DrawLotoIdCommand { get; }
         public ReactiveCommand BattleMaxRaidCommand { get; }
         public ReactiveCommand CancelCommand { get; }
+        public ReactiveCommand SaveImageCommand { get; }
 
         private IMacroService m_macro = null;
         private ICanceler m_macroCanceler = null;
 
-        public MacroPanelViewModel(IMacroService macro, ICanceler canceler, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancellationRequest cancelRequest)
+        public MacroPanelViewModel(IMacroService macro, ICanceler canceler, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancellationRequest cancelRequest, IGameCapture gameCapture)
         {
             m_macro = macro;
             m_macroCanceler = canceler;
@@ -46,6 +50,9 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);
             CancelCommand.Subscribe(m_macroCanceler.Cancel);
+
+            SaveImageCommand = new ReactiveCommand().AddTo(Disposables);
+            SaveImageCommand.Subscribe(() => gameCapture.SaveFrame(null));
         }
 
         private ReactiveCommand CreateExecuteMacroCommand()

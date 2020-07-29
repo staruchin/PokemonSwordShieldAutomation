@@ -39,8 +39,10 @@
         <Button Grid.Row="2" Content="Max Raid" Command="{Binding BattleMaxRaidCommand}"/>
 
 
-        <Button Grid.Row="16" Grid.ColumnSpan="2"
+        <Button Grid.Row="15" Grid.ColumnSpan="2"
                 Content="{Binding IsCanceling.Value, Converter={StaticResource CancelingStatusToCancelButtonContentConverter}}"
                 Command="{Binding CancelCommand}"/>
+        <Button Grid.Row="16" Grid.ColumnSpan="2" Content="Save Image" Command="{Binding SaveImageCommand}"/>
+
     </Grid>
 </UserControl>

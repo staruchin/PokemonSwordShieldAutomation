@@ -24,15 +24,14 @@ namespace Sta.PokemonMacroExecutor2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance(new GameCapture());
-
             var controller = new SerialSwitchController();
             var serialPort = new SerialPortService();
             var macro = new MacroService();
             var cancelableTask = new CancelableTaskService();
             var clock = new SwitchClock();
             var work = new WorkSituation();
-            var macroPool = new MacroPool(clock, controller, cancelableTask);
+            var gameCapture = new GameCapture();
+            var macroPool = new MacroPool(clock, controller, cancelableTask, gameCapture);
 
             controller.SerialPort = serialPort;
             macro.TaskService = cancelableTask;
@@ -41,6 +40,7 @@ namespace Sta.PokemonMacroExecutor2
             clock.Controller = controller;
             clock.Cancellation = cancelableTask;
 
+            containerRegistry.RegisterInstance<IGameCapture>(gameCapture);
             containerRegistry.RegisterInstance<ISwitchController>(controller);
             containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
             containerRegistry.RegisterInstance<IMacroService>(macro);

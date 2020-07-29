@@ -1,4 +1,5 @@
-﻿using Sta.SwitchController;
+﻿using Sta.CaptureBoard;
+using Sta.SwitchController;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,7 @@ namespace Sta.AutomationMacro.Macro
 {
     public abstract class AbstractMacro : IMacro
     {
-        public ISwitchClock Clock { get; set; }
-        public ISwitchController Controller { get; set; }
-        public ICancellationRequest CancellationRequest { get; set; }
+        public MacroParameter Param { get; set; }
 
         public abstract void Execute();
     }

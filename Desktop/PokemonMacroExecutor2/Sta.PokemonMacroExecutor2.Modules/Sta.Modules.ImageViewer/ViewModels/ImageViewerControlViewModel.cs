@@ -17,9 +17,9 @@ namespace Sta.Modules.ImageViewer.ViewModels
 
         public ReactiveProperty<Bitmap> Frame { get; set; }
 
-        private GameCapture m_capture = null;
+        private IGameCapture m_capture = null;
 
-        public ImageViewerControlViewModel(GameCapture capture)
+        public ImageViewerControlViewModel(IGameCapture capture)
         {
             m_capture = capture;
 

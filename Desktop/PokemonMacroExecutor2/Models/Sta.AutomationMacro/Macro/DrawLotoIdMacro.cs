@@ -9,8 +9,13 @@ namespace Sta.AutomationMacro.Macro
 {
     public class DrawLotoIdMacro : AbstractMacro
     {
+        private ISwitchClock Clock => Param.Clock;
+        private ISwitchController Controller => Param.Controller;
+        private ICancellationRequest CancellationRequest => Param.CancellationRequest;
+
         public override void Execute()
         {
+
             while (!Clock.IsEndOfDays && !CancellationRequest.IsCancellationRequested)
             {
                 Clock.IncreaseOneDayFromGameScreen();

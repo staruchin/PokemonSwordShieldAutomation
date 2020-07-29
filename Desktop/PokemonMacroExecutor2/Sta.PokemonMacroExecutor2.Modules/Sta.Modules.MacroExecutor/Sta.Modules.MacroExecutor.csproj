@@ -87,6 +87,10 @@
       <Project>{40ba3c0c-e696-46ff-99b0-3a3968b981b7}</Project>
       <Name>Sta.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Models\Sta.CaptureBoard\Sta.CaptureBoard.csproj">
+      <Project>{F86BEAC1-5383-4FFC-88A6-34019228719F}</Project>
+      <Name>Sta.CaptureBoard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Models\Sta.SwitchController\Sta.SwitchController.csproj">
       <Project>{BF68560C-01C3-42E7-AD45-2629E812CC10}</Project>
       <Name>Sta.SwitchController</Name>

@@ -1,10 +1,8 @@
 ﻿using Sta.AutomationMacro.Macro;
+using Sta.CaptureBoard;
 using Sta.SwitchController;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro
 {
@@ -12,15 +10,16 @@ namespace Sta.AutomationMacro
     {
         private IDictionary<Type, IMacro> Pool { get; } = new Dictionary<Type, IMacro>();
 
-        public MacroPool(ISwitchClock clock, ISwitchController controller, ICancellationRequest cancelRequest)
+        public MacroPool(ISwitchClock clock, ISwitchController controller, ICancellationRequest cancelRequest, IGameCapture gameCapture)
         {
-            Add<DrawLotoIdMacro>(clock, controller, cancelRequest);
-            Add<BattleMaxRaidMacro>(clock, controller, cancelRequest);
+            var param = new MacroParameter() { Clock = clock, Controller = controller, CancellationRequest = cancelRequest, GameCapture = gameCapture, };
+            Add<DrawLotoIdMacro>(param);
+            Add<BattleMaxRaidMacro>(param);
         }
 
-        private void Add<T>(ISwitchClock clock, ISwitchController controller, ICancellationRequest cancelRequest) where T : AbstractMacro, new()
+        private void Add<T>(MacroParameter param) where T : AbstractMacro, new()
         {
-            Pool.Add(typeof(T), new T() { Clock = clock, Controller = controller, CancellationRequest = cancelRequest });
+            Pool.Add(typeof(T), new T() { Param = param });
         }
 
         public IMacro Get<T>() where T : IMacro
