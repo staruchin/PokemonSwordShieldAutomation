@@ -15,45 +15,33 @@ namespace Sta.CaptureBoard
     {
         private object m_frameLock = new object();
 
-        private void Lock(Action action)
-        {
-            lock (m_frameLock)
-            {
-                action?.Invoke();
-            }
-        }
-
-        private T Lock<T>(Func<T> func)
-        {
-            lock (m_frameLock)
-            {
-                return (func != null) ? func.Invoke() : default(T);
-            }
-        }
-
         private Bitmap m_frame = null;
         public Bitmap Frame
         {
             get
             {
-                return Lock(() => m_frame);
+                lock (m_frameLock)
+                {
+                    return m_frame?.Clone() as Bitmap;
+                }
             }
             set
             {
-                Lock(() => SetProperty(ref m_frame, value));
+                lock (m_frameLock)
+                {
+                    SetProperty(ref m_frame, value);
+                }
             }
         }
 
+
         public void SaveFrame(string fileName)
         {
-            Lock(() =>
-            {
-                Frame?.ToMat().SaveImage(!string.IsNullOrEmpty(fileName) ? fileName : SaveImageFileName);
-            });
+            Frame?.ToMat().SaveImage(!string.IsNullOrEmpty(fileName) ? fileName : SaveImageFileName);
         }
 
         private static string SaveImageDir { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "PokemonMacroExecutor2");
-        private static string SaveImageFileName => Path.Combine(SaveImageDir, DateTime.Now.ToString("yyyyMMddhhmmssfff") + ".bmp");
+        private static string SaveImageFileName => Path.Combine(SaveImageDir, DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png");
 
         public void Start()
         {
@@ -100,10 +88,8 @@ namespace Sta.CaptureBoard
 
                         //Frame = image.Resize(new OpenCvSharp.Size(Properties.Settings.Default.DisplayFrameWidth,
                         //                                          Properties.Settings.Default.DisplayFrameHeight)).ToBitmap();
-                        Lock(() =>
-                        {
-                            Frame = image.ToBitmap();
-                        });
+                        Frame = image.ToBitmap();
+
                         Thread.Sleep(Properties.Settings.Default.DisplayInterval);
                     }
                 }

@@ -1,65 +1,125 @@
-﻿using Sta.CaptureBoard;
+﻿using OpenCvSharp;
+using OpenCvSharp.Extensions;
+using OpenCvSharp.XImgProc;
+using Sta.CaptureBoard;
 using Sta.SwitchController;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro.Macro
 {
-    public class BattleMaxRaidMacro : AbstractMacro
+    public class BattleMaxRaidMacro : AbstractMacro, IDisposable
     {
         private ISwitchController Controller => Param.Controller;
         private ICancellationRequest CancellationRequest => Param.CancellationRequest;
         private IGameCapture GameCapture => Param.GameCapture;
 
+        private bool m_isLightEmitted = false;
+
         public override void Execute()
         {
-            while (true)
+            do
             {
-                Controller.PressAndRelease(ButtonType.A, 50, 1500);     // 巣穴を選択
-                Controller.PressAndRelease(ButtonType.A, 50, 1500);     // かたまり＞はい選択
-                Controller.PressAndRelease(ButtonType.A, 50, 3000);    // レポート＞はい選択
-                Controller.PressAndRelease(ButtonType.B, 50, 1500);     // 書き残した
-                Controller.PressAndRelease(ButtonType.B, 50, 1500);     // 投げ込んだ
-                Controller.PressAndRelease(ButtonType.A, 50, 3000);     // 巣穴を選択
-                GameCapture.SaveFrame(null);
-                Controller.PressAndRelease(DPadCommand.Down, 50, 1500); // みんな→ひとりで挑戦
-                Controller.PressAndRelease(ButtonType.A, 50, 1500);     // ひとりで挑戦選択
-                Controller.PressAndRelease(ButtonType.A, 50, 1500);     // ボールがありません＞はい選択
-                Controller.PressAndRelease(ButtonType.A, 50, 1500);     // サポートのトレーナー
-
-                // バトル開始
-
-                CancellationRequest.ThrowIfCancellationRequested();
-
-                do
+                if (!m_isLightEmitted)
                 {
-                    // ToDo: 負けたときも考慮
-
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Controller.PressAndRelease(ButtonType.A, 50, 500);
-                    }
-
+                    Controller.PressAndRelease(ButtonType.A, 50, 1000);     // 巣穴を選択
+                    Controller.PressAndRelease(ButtonType.A, 50, 1000);     // かたまり＞はい選択
+                    CancellationRequest.ThrowIfCancellationRequested();
+                    Controller.PressAndRelease(ButtonType.A, 50, 3000);     // レポート＞はい選択
+                    GameCapture.SaveFrame(null);
+                    Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 書き残した
+                    GameCapture.SaveFrame(null);
+                    Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 投げ込んだ
+                    GameCapture.SaveFrame(null);
+                    m_isLightEmitted = true;
                     CancellationRequest.ThrowIfCancellationRequested();
                 }
-                while (!IsFinished());
 
-                Controller.PressAndRelease(DPadCommand.Down, 50, 1500); // 捕まえる→捕まえない
-                Controller.PressAndRelease(ButtonType.A, 50, 8000);     // ＞捕まえない選択
-                Controller.PressAndRelease(ButtonType.A, 50, 8000);     // つぎへ
-
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // 巣穴を選択
+                GameCapture.SaveFrame(null);
+                Controller.PressAndRelease(DPadCommand.Down, 50, 500); // みんな→ひとりで挑戦
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // ひとりで挑戦選択
                 CancellationRequest.ThrowIfCancellationRequested();
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // ボールがありません＞はい選択
+                Controller.PressAndRelease(ButtonType.A, 50, 10000);     // サポートのトレーナー
+
+                // バトル開始
+                do
+                {
+                    Controller.PressAndRelease(ButtonType.A, 50, 250);
+                    Controller.PressAndRelease(ButtonType.A, 50, 250);
+                    Controller.PressAndRelease(ButtonType.A, 50, 250);
+                    Controller.PressAndRelease(ButtonType.A, 50, 250);
+                    Controller.PressAndRelease(ButtonType.A, 50, 50);
+
+                    if (IsWon())
+                    {
+                        Controller.PressAndRelease(DPadCommand.Down, 50, 500); // つかまえる→つかまえない
+                        Controller.PressAndRelease(ButtonType.A, 50, 5500);     // ＞つかまえない選択
+                        Controller.PressAndRelease(ButtonType.A, 50, 6000);     // つぎへ
+                        m_isLightEmitted = false;
+                        break;
+                    }
+
+                    if (IsLost())
+                    {
+                        Thread.Sleep(7000);
+                        break;
+                    }
+                }
+                while (!CancellationRequest.IsCancellationRequested);
+            }
+            while (!CancellationRequest.IsCancellationRequested);
+        }
+
+        private Mat RaidFinishedTemplate { get; } = new Mat(@"Images\RaidFinishedTemplate.png");
+
+        private bool IsWon()
+        {
+            using (var target = GameCapture.Frame.ToMat())
+            {
+                return MatchTemplate(target, RaidFinishedTemplate);
             }
         }
 
-        private bool IsFinished()
+        private bool IsLost()
         {
-            //var target = GameCapture.Frame;
-            //var template = 
-            return false;
+            using (var image = GameCapture.Frame.ToMat())
+            {
+                return IsBlackScreen(image);
+            }
+        }
+
+        private bool MatchTemplate(Mat image, Mat template, double threshold = 0.9d)
+        {
+            using (var result = image.MatchTemplate(template, TemplateMatchModes.CCoeffNormed))
+            {
+                OpenCvSharp.Point minLoc, maxLoc;
+                double minVal, maxVal;
+                result.MinMaxLoc(out minVal, out maxVal, out minLoc, out maxLoc);
+
+                return maxVal >= threshold;
+            }
+        }
+
+        private bool IsBlackScreen(Mat image)
+        {
+            using (var grayImage = image.CvtColor(ColorConversionCodes.RGB2GRAY))
+            using (var binaryImage = grayImage.Threshold(100d, 255d, ThresholdTypes.Binary))
+            {
+                int whitePixels = binaryImage.CountNonZero();
+                return whitePixels == 0;
+            }
+        }
+
+        public void Dispose()
+        {
+            RaidFinishedTemplate.Dispose();
         }
     }
 }

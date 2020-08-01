@@ -6,11 +6,8 @@ using Sta.CaptureBoard;
 using Sta.SwitchController;
 using Sta.Utilities;
 using System;
-using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
-using static System.Environment;
 
 namespace Sta.Modules.MacroExecutor.ViewModels
 {
