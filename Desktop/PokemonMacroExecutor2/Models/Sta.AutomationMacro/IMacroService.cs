@@ -1,4 +1,5 @@
-﻿using Sta.SwitchController;
+﻿using Sta.AutomationMacro.Macro;
+using Sta.SwitchController;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,5 +13,7 @@ namespace Sta.AutomationMacro
     {
         void DrawLotoId();
         void BattleMaxRaid();
+
+        void Execute<T>() where T : IMacro;
     }
 }

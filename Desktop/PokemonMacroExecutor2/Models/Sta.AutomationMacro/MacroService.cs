@@ -21,12 +21,17 @@ namespace Sta.AutomationMacro
         /// <inheritdoc/>
         public void DrawLotoId()
         {
-            Execute<DrawLotoIdMacro>();
+            ExecuteInternal<DrawLotoIdMacro>();
         }
 
         public void BattleMaxRaid()
         {
-            Execute<BattleMaxRaidMacro>();
+            ExecuteInternal<BattleMaxRaidMacro>();
+        }
+
+        public void Execute<T>() where T : IMacro
+        {
+            ExecuteInternal<T>();
         }
 
         private bool IsBusy
@@ -35,7 +40,7 @@ namespace Sta.AutomationMacro
             set { Work.IsBusy = value; }
         }
 
-        private async void Execute<T>() where T : IMacro
+        private async void ExecuteInternal<T>() where T : IMacro
         {
             if (IsBusy) { return; }
 

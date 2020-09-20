@@ -21,6 +21,16 @@ namespace Sta.AutomationMacro.Macro
 
         private bool m_isLightEmitted = false;
 
+        /// <summary>
+        /// 光の出ていない巣穴の前から始めて、ねがいのかたまりを投げ入れてレイドバトルを行う。
+        /// ねがいのかたまりがなくなるまで繰り返す。
+        /// </summary>
+        /// <remarks>事前準備
+        /// <list type="bullet">
+        /// <item>インターネットから切断しておく。</item>
+        /// <item>リュックの「ボール」ポケットを空にしておく。</item>
+        /// </list>
+        /// </remarks>
         public override void Execute()
         {
             do
@@ -31,21 +41,18 @@ namespace Sta.AutomationMacro.Macro
                     Controller.PressAndRelease(ButtonType.A, 50, 1000);     // かたまり＞はい選択
                     CancellationRequest.ThrowIfCancellationRequested();
                     Controller.PressAndRelease(ButtonType.A, 50, 3000);     // レポート＞はい選択
-                    GameCapture.SaveFrame(null);
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 書き残した
-                    GameCapture.SaveFrame(null);
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 投げ込んだ
-                    GameCapture.SaveFrame(null);
                     m_isLightEmitted = true;
                     CancellationRequest.ThrowIfCancellationRequested();
                 }
 
-                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // 巣穴を選択
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);      // 巣穴を選択
                 GameCapture.SaveFrame(null);
-                Controller.PressAndRelease(DPadCommand.Down, 50, 500); // みんな→ひとりで挑戦
-                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // ひとりで挑戦選択
+                Controller.PressAndRelease(DPadCommand.Down, 50, 500);   // みんな→ひとりで挑戦
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);      // ひとりで挑戦選択
                 CancellationRequest.ThrowIfCancellationRequested();
-                Controller.PressAndRelease(ButtonType.A, 50, 1000);     // ボールがありません＞はい選択
+                Controller.PressAndRelease(ButtonType.A, 50, 1000);      // ボールがありません＞はい選択
                 Controller.PressAndRelease(ButtonType.A, 50, 10000);     // サポートのトレーナー
 
                 // バトル開始
@@ -59,7 +66,7 @@ namespace Sta.AutomationMacro.Macro
 
                     if (IsWon())
                     {
-                        Controller.PressAndRelease(DPadCommand.Down, 50, 500); // つかまえる→つかまえない
+                        Controller.PressAndRelease(DPadCommand.Down, 50, 500);  // つかまえる→つかまえない
                         Controller.PressAndRelease(ButtonType.A, 50, 5500);     // ＞つかまえない選択
                         Controller.PressAndRelease(ButtonType.A, 50, 6000);     // つぎへ
                         m_isLightEmitted = false;

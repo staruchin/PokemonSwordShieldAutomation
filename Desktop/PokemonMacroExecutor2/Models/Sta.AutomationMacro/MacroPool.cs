@@ -15,6 +15,7 @@ namespace Sta.AutomationMacro
             var param = new MacroParameter() { Clock = clock, Controller = controller, CancellationRequest = cancelRequest, GameCapture = gameCapture, };
             Add<DrawLotoIdMacro>(param);
             Add<BattleMaxRaidMacro>(param);
+            Add<GainWattsMacro>(param);
         }
 
         private void Add<T>(MacroParameter param) where T : AbstractMacro, new()

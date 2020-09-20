@@ -2,6 +2,7 @@
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Sta.AutomationMacro;
+using Sta.AutomationMacro.Macro;
 using Sta.CaptureBoard;
 using Sta.SwitchController;
 using Sta.Utilities;
@@ -21,6 +22,7 @@ namespace Sta.Modules.MacroExecutor.ViewModels
 
         public ReactiveProperty<DateTime?> Clock { get; set; }
         public ReactiveCommand DrawLotoIdCommand { get; }
+        public ReactiveCommand GainWattsCommand { get; }
         public ReactiveCommand BattleMaxRaidCommand { get; }
         public ReactiveCommand CancelCommand { get; }
         public ReactiveCommand SaveImageCommand { get; }
@@ -39,10 +41,9 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             Clock = clock.ToReactivePropertyAsSynchronized(m => m.DateTime).AddTo(Disposables);
             Clock.Value = DateTime.Now;
 
-            DrawLotoIdCommand = CreateExecuteMacroCommand().AddTo(Disposables);
-            DrawLotoIdCommand.Subscribe(m_macro.DrawLotoId).AddTo(Disposables);
-            BattleMaxRaidCommand = CreateExecuteMacroCommand().AddTo(Disposables);
-            BattleMaxRaidCommand.Subscribe(m_macro.BattleMaxRaid).AddTo(Disposables);
+            DrawLotoIdCommand = CreateExecuteMacroCommand<DrawLotoIdMacro>();
+            GainWattsCommand = CreateExecuteMacroCommand<GainWattsMacro>();
+            BattleMaxRaidCommand = CreateExecuteMacroCommand<BattleMaxRaidMacro>();
 
             IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);
@@ -50,6 +51,13 @@ namespace Sta.Modules.MacroExecutor.ViewModels
 
             SaveImageCommand = new ReactiveCommand().AddTo(Disposables);
             SaveImageCommand.Subscribe(() => gameCapture.SaveFrame(null));
+        }
+
+        private ReactiveCommand CreateExecuteMacroCommand<T>() where T : IMacro
+        {
+            var command = CreateExecuteMacroCommand().AddTo(Disposables);
+            command.Subscribe(m_macro.Execute<T>).AddTo(Disposables);
+            return command;
         }
 
         private ReactiveCommand CreateExecuteMacroCommand()

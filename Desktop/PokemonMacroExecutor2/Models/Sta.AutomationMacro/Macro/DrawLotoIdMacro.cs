@@ -15,7 +15,6 @@ namespace Sta.AutomationMacro.Macro
 
         public override void Execute()
         {
-
             while (!Clock.IsEndOfDays && !CancellationRequest.IsCancellationRequested)
             {
                 Clock.IncreaseOneDayFromGameScreen();
