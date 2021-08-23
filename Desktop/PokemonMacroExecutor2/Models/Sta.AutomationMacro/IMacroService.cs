@@ -11,9 +11,6 @@ namespace Sta.AutomationMacro
 {
     public interface IMacroService
     {
-        void DrawLotoId();
-        void BattleMaxRaid();
-
         void Execute<T>() where T : IMacro;
     }
 }

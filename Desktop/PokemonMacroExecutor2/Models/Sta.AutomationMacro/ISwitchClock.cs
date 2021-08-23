@@ -11,7 +11,9 @@ namespace Sta.AutomationMacro
     {
         DateTime? DateTime { get; set; }
         bool IsEndOfDays { get; }
+        int DaysCount { get; set; }
 
         void IncreaseOneDayFromGameScreen();
+        void IncreaseOneDayCursorOnDate();
     }
 }

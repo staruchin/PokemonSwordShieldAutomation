@@ -17,18 +17,6 @@ namespace Sta.AutomationMacro
         public ITaskService TaskService { get; set; }
         public IWorkSituation Work { get; set; }
 
-
-        /// <inheritdoc/>
-        public void DrawLotoId()
-        {
-            ExecuteInternal<DrawLotoIdMacro>();
-        }
-
-        public void BattleMaxRaid()
-        {
-            ExecuteInternal<BattleMaxRaidMacro>();
-        }
-
         public void Execute<T>() where T : IMacro
         {
             ExecuteInternal<T>();

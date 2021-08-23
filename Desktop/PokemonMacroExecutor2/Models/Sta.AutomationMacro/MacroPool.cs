@@ -16,6 +16,8 @@ namespace Sta.AutomationMacro
             Add<DrawLotoIdMacro>(param);
             Add<BattleMaxRaidMacro>(param);
             Add<GainWattsMacro>(param);
+            //Add<SeekPokemonMacro>(param);
+            Add<RapidTimeTravelMacro>(param);
         }
 
         private void Add<T>(MacroParameter param) where T : AbstractMacro, new()

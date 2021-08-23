@@ -18,6 +18,14 @@ namespace Sta.AutomationMacro
             set { SetProperty(ref m_dateTime, value); }
         }
 
+        private int m_daysCount = 0;
+        /// <inheritdoc/>
+        public int DaysCount
+        {
+            get { return m_daysCount; }
+            set { SetProperty(ref m_daysCount, value); }
+        }
+
         public ISwitchController Controller { get; set; }
         public ICancellationRequest Cancellation { get; set; }
 
@@ -35,6 +43,7 @@ namespace Sta.AutomationMacro
         {
             Controller.PressAndRelease(ButtonType.Home, 50, 800);
             Controller.PressAndRelease(DPadCommand.Down, 50, 50);
+            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(DPadCommand.Right, 50, 50);
@@ -63,8 +72,10 @@ namespace Sta.AutomationMacro
         /// <summary>
         /// 「現在の日付と時刻」画面の「日」にカーソルが当たっている状態から日付を1日進め、「OK」を押す。
         /// </summary>
-        private void IncreaseOneDayCursorOnDate()
+        public void IncreaseOneDayCursorOnDate()
         {
+            bool backToStartOfDays = false;
+
             var nextDate = DateTime.Value + OneDay;
 
             Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 日を変更
@@ -77,7 +88,16 @@ namespace Sta.AutomationMacro
                 if (nextDate.Month == 1)
                 {
                     Controller.PressAndRelease(DPadCommand.Left, 50, 50);
-                    Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 年を変更
+
+                    if (nextDate.Year <= EndOfDays.Year)
+                    {
+                        Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 年を変更(+1)
+                    }
+                    else
+                    {
+                        Controller.PressAndRelease(DPadCommand.Down, 6400, 50); // 年を変更(2000年まで戻す)
+                        backToStartOfDays = true;
+                    }
 
                     Controller.PressAndRelease(ButtonType.A, 50, 50);
                 }
@@ -88,41 +108,22 @@ namespace Sta.AutomationMacro
             Controller.PressAndRelease(ButtonType.A, 50, 50);
             Controller.PressAndRelease(ButtonType.A, 50, 50);
             Controller.PressAndRelease(ButtonType.A, 50, 50);
-            Controller.PressAndRelease(ButtonType.A, 50, 100); // OK
+            Controller.PressAndRelease(ButtonType.A, 50, 150); // OK
 
-            DateTime = nextDate;
-        }
-
-
-
-        /// <summary>
-        /// 「日付と時刻」画面の「現在の日付と時刻」にカーソルが当たっている状態から始めて、
-        /// 「現在の日付と時刻」画面に入り、日付を1日進め、OKを押して戻ってくる、を指定した日数だけ繰り返す。
-        /// </summary>
-        /// <param name="date">開始日時を表す<see cref="System.DateTime"/></param>
-        /// <param name="days">進める日数</param>
-        public void Increase(DateTime date, int days)
-        {
-            for (int i = 0; i < days; i++)
+            if (!backToStartOfDays)
             {
-                if (IsEndOfDays)
-                {
-                    return;
-                }
-
-                date += TimeSpan.FromDays(1);
-
-                Controller.PressAndRelease(ButtonType.A, 50, 100);
-                Controller.PressAndRelease(DPadCommand.Left, 50, 50);
-                Controller.PressAndRelease(DPadCommand.Left, 50, 50);
-                Controller.PressAndRelease(DPadCommand.Left, 50, 50);
-
-                //IncreaseDateByOneDayCore(date);
+                DaysCount--;
+                DateTime = nextDate;
+            }
+            else
+            {
+                DateTime = StartOfDays;
             }
         }
 
         private static TimeSpan OneDay { get; } = TimeSpan.FromDays(1);
         private static DateTime EndOfDays { get; } = new DateTime(2060, 12, 31);
+        private static DateTime StartOfDays { get; } = new DateTime(2000, 1, 1);
 
         public bool IsEndOfDays => DateTime.Value >= EndOfDays;
     }

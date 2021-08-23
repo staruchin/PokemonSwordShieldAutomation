@@ -24,6 +24,10 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         public ReactiveCommand DrawLotoIdCommand { get; }
         public ReactiveCommand GainWattsCommand { get; }
         public ReactiveCommand BattleMaxRaidCommand { get; }
+        //public ReactiveCommand SeekPokemonCommand { get; }
+        public ReactiveCommand RapidTimeTravelCommand { get; }
+        public ReactiveProperty<int> RapidTimeTravelDays { get; set; }
+
         public ReactiveCommand CancelCommand { get; }
         public ReactiveCommand SaveImageCommand { get; }
 
@@ -44,6 +48,10 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             DrawLotoIdCommand = CreateExecuteMacroCommand<DrawLotoIdMacro>();
             GainWattsCommand = CreateExecuteMacroCommand<GainWattsMacro>();
             BattleMaxRaidCommand = CreateExecuteMacroCommand<BattleMaxRaidMacro>();
+            //SeekPokemonCommand = CreateExecuteMacroCommand<SeekPokemonMacro>();
+            RapidTimeTravelCommand = CreateExecuteMacroCommand<RapidTimeTravelMacro>();
+            RapidTimeTravelDays = clock.ToReactivePropertyAsSynchronized(m => m.DaysCount).AddTo(Disposables);
+            RapidTimeTravelDays.Value = 0;
 
             IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);

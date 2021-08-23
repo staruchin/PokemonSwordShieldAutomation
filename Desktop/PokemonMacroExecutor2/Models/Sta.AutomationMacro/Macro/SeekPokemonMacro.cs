@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro.Macro
 {
-    public class GainWattsMacro : AbstractMacro
+    public class SeekPokemonMacro : AbstractMacro
     {
         private ISwitchClock Clock => Param.Clock;
         private ISwitchController Controller => Param.Controller;
@@ -16,8 +16,7 @@ namespace Sta.AutomationMacro.Macro
         private IGameCapture GameCapture => Param.GameCapture;
 
         /// <summary>
-        /// 光の出ている巣穴の前から始めて、ワットを獲得し、日付を変更する。
-        /// これを繰り返す。
+        /// 光の出ている巣穴の前から始めて、指定したポケモンのシルエットが出るまで日付を変更する。
         /// </summary>
         /// <remarks>事前準備
         /// <list type="bullet">
@@ -29,6 +28,11 @@ namespace Sta.AutomationMacro.Macro
         {
             Controller.PressAndRelease(ButtonType.A, 50, 900);       // 巣穴を選択
             GameCapture.SaveFrame(null);
+            if (Found())
+            {
+                return;
+            }
+            
             Controller.PressAndRelease(ButtonType.A, 50, 900);       // みんなで挑戦選択
             Controller.PressAndRelease(ButtonType.A, 50, 2700);      // ボールがありません＞はい選択（ボールがなければ）
 
@@ -44,10 +48,21 @@ namespace Sta.AutomationMacro.Macro
                 Controller.PressAndRelease(ButtonType.A, 50, 700);   // 巣穴を選択
                 Controller.PressAndRelease(ButtonType.A, 50, 700);   // エネルギーがあふれでてる
                 Controller.PressAndRelease(ButtonType.A, 50, 900);   // ワット手に入れた
+                
                 GameCapture.SaveFrame(null);
+                if (Found())
+                {
+                    return;
+                }
+
                 Controller.PressAndRelease(ButtonType.A, 50, 900);   // みんなで挑戦選択
                 Controller.PressAndRelease(ButtonType.A, 50, 2700);  // ボールがありません＞はい選択（ボールがなければ）
             }
+        }
+
+        private bool Found()
+        {
+            return true;
         }
     }
 }

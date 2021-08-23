@@ -40,15 +40,15 @@ namespace Sta.AutomationMacro.Macro
                     Controller.PressAndRelease(ButtonType.A, 50, 1000);     // 巣穴を選択
                     Controller.PressAndRelease(ButtonType.A, 50, 1000);     // かたまり＞はい選択
                     CancellationRequest.ThrowIfCancellationRequested();
-                    Controller.PressAndRelease(ButtonType.A, 50, 3000);     // レポート＞はい選択
+                    Controller.PressAndRelease(ButtonType.A, 50, 2800);     // レポート＞はい選択
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 書き残した
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 投げ込んだ
                     m_isLightEmitted = true;
                     CancellationRequest.ThrowIfCancellationRequested();
                 }
 
-                Controller.PressAndRelease(ButtonType.A, 50, 1000);      // 巣穴を選択
-                GameCapture.SaveFrame(null);
+                Controller.PressAndRelease(ButtonType.A, 50, 1200);      // 巣穴を選択
+                //GameCapture.SaveFrame(null);
                 Controller.PressAndRelease(DPadCommand.Down, 50, 500);   // みんな→ひとりで挑戦
                 Controller.PressAndRelease(ButtonType.A, 50, 1000);      // ひとりで挑戦選択
                 CancellationRequest.ThrowIfCancellationRequested();
@@ -68,7 +68,7 @@ namespace Sta.AutomationMacro.Macro
                     {
                         Controller.PressAndRelease(DPadCommand.Down, 50, 500);  // つかまえる→つかまえない
                         Controller.PressAndRelease(ButtonType.A, 50, 5500);     // ＞つかまえない選択
-                        Controller.PressAndRelease(ButtonType.A, 50, 6000);     // つぎへ
+                        Controller.PressAndRelease(ButtonType.A, 50, 6500);     // つぎへ
                         m_isLightEmitted = false;
                         break;
                     }
