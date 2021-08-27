@@ -59,6 +59,7 @@
     <Compile Include="Macro\AbstractMacro.cs" />
     <Compile Include="Macro\BattleMaxRaidMacro.cs" />
     <Compile Include="Macro\DrawLotoIdMacro.cs" />
+    <Compile Include="Macro\ThreeDaysTravelMacro.cs" />
     <Compile Include="Macro\RapidTimeTravelMacro.cs" />
     <Compile Include="Macro\SeekPokemonMacro.cs" />
     <Compile Include="Macro\GainWattsMacro.cs" />
@@ -111,6 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\RaidFinishedTemplate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Images\SearchTemplates\dummy.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

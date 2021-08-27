@@ -66,7 +66,7 @@ namespace Sta.AutomationMacro
             IncreaseOneDayCursorOnDate();
 
             Controller.PressAndRelease(ButtonType.Home, 50, 1000);
-            Controller.PressAndRelease(ButtonType.A, 50, 500);
+            Controller.PressAndRelease(ButtonType.A, 50, 600);
         }
 
         /// <summary>

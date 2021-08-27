@@ -9,6 +9,7 @@ using Sta.Utilities;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 
 namespace Sta.Modules.MacroExecutor.ViewModels
 {
@@ -27,17 +28,23 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         //public ReactiveCommand SeekPokemonCommand { get; }
         public ReactiveCommand RapidTimeTravelCommand { get; }
         public ReactiveProperty<int> RapidTimeTravelDays { get; set; }
+        public ReactiveCommand ThreeDaysTravelCommand { get; }
+        public ReactiveCommand ThreeDaysTravelNextCommand { get; }
+        public ReactiveProperty<bool> CanGoNextThreeDays { get; }
+
 
         public ReactiveCommand CancelCommand { get; }
         public ReactiveCommand SaveImageCommand { get; }
 
         private IMacroService m_macro = null;
         private ICanceler m_macroCanceler = null;
+        private IMacroPool m_macroPool = null;
 
-        public MacroPanelViewModel(IMacroService macro, ICanceler canceler, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancellationRequest cancelRequest, IGameCapture gameCapture)
+        public MacroPanelViewModel(IMacroService macro, IMacroPool pool, ICanceler canceler, IWorkSituation work, ISwitchClock clock, ISerialPortService serialPort, ICancellationRequest cancelRequest, IGameCapture gameCapture)
         {
             m_macro = macro;
             m_macroCanceler = canceler;
+            m_macroPool = pool;
 
             IsConnected = serialPort.ObserveProperty(p => p.IsOpen).ToReactiveProperty().AddTo(Disposables);
             IsBusy = work.ObserveProperty(w => w.IsBusy).ToReactiveProperty().AddTo(Disposables);
@@ -52,6 +59,16 @@ namespace Sta.Modules.MacroExecutor.ViewModels
             RapidTimeTravelCommand = CreateExecuteMacroCommand<RapidTimeTravelMacro>();
             RapidTimeTravelDays = clock.ToReactivePropertyAsSynchronized(m => m.DaysCount).AddTo(Disposables);
             RapidTimeTravelDays.Value = 0;
+            ThreeDaysTravelCommand = CreateExecuteMacroCommand<ThreeDaysTravelMacro>();
+            CanGoNextThreeDays = (m_macroPool.Get<ThreeDaysTravelMacro>() as ThreeDaysTravelMacro).ObserveProperty(m => m.CanGoNext).ToReactiveProperty().AddTo(Disposables);
+            ThreeDaysTravelNextCommand = CanGoNextThreeDays.ToReactiveCommand().AddTo(Disposables);
+            ThreeDaysTravelNextCommand.Subscribe(() =>
+            {
+                using (var wait = new EventWaitHandle(false, EventResetMode.ManualReset, "WAIT_NEXT_3_DAYS"))
+                {
+                    wait.Set();
+                }
+            });
 
             IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);

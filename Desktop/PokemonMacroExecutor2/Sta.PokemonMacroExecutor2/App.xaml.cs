@@ -44,6 +44,7 @@ namespace Sta.PokemonMacroExecutor2
             containerRegistry.RegisterInstance<ISwitchController>(controller);
             containerRegistry.RegisterInstance<ISerialPortService>(serialPort);
             containerRegistry.RegisterInstance<IMacroService>(macro);
+            containerRegistry.RegisterInstance<IMacroPool>(macroPool);
             containerRegistry.RegisterInstance<ITaskService>(cancelableTask);
             containerRegistry.RegisterInstance<ICanceler>(cancelableTask);
             containerRegistry.RegisterInstance<ICancellationRequest>(cancelableTask);

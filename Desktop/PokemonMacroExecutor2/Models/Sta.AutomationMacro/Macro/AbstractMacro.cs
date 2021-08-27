@@ -1,4 +1,5 @@
-﻿using Sta.CaptureBoard;
+﻿using Prism.Mvvm;
+using Sta.CaptureBoard;
 using Sta.SwitchController;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sta.AutomationMacro.Macro
 {
-    public abstract class AbstractMacro : IMacro
+    public abstract class AbstractMacro : BindableBase, IMacro
     {
         public MacroParameter Param { get; set; }
 

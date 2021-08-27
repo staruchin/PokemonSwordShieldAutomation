@@ -43,6 +43,9 @@
         <Button Grid.Row="3" Content="Rapid Time Travel" Command="{Binding RapidTimeTravelCommand}"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RapidTimeTravelDays.Value}" VerticalAlignment="Stretch" VerticalContentAlignment="Center"/>
 
+        <Button Grid.Row="4" Content="3 Days Travel" Command="{Binding ThreeDaysTravelCommand}"/>
+        <Button Grid.Row="4" Grid.Column="1" Content="Next 3 Days" Command="{Binding ThreeDaysTravelNextCommand}"/>
+        
         <Button Grid.Row="15" Grid.ColumnSpan="2"
                 Content="{Binding IsCanceling.Value, Converter={StaticResource CancelingStatusToCancelButtonContentConverter}}"
                 Command="{Binding CancelCommand}"/>
