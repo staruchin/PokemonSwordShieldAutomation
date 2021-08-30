@@ -25,7 +25,7 @@ namespace Sta.CaptureBoard.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1280")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
         public int CaptureFrameWidth {
             get {
                 return ((int)(this["CaptureFrameWidth"]));
@@ -34,7 +34,7 @@ namespace Sta.CaptureBoard.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("720")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
         public int CaptureFrameHeight {
             get {
                 return ((int)(this["CaptureFrameHeight"]));
@@ -61,7 +61,7 @@ namespace Sta.CaptureBoard.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("540")]
+        [global::System.Configuration.DefaultSettingValueAttribute("720")]
         public int DisplayFrameHeight {
             get {
                 return ((int)(this["DisplayFrameHeight"]));
@@ -70,7 +70,7 @@ namespace Sta.CaptureBoard.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("960")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1280")]
         public int DisplayFrameWidth {
             get {
                 return ((int)(this["DisplayFrameWidth"]));

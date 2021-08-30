@@ -86,9 +86,9 @@ namespace Sta.CaptureBoard
                             return false;
                         }
 
-                        //Frame = image.Resize(new OpenCvSharp.Size(Properties.Settings.Default.DisplayFrameWidth,
-                        //                                          Properties.Settings.Default.DisplayFrameHeight)).ToBitmap();
-                        Frame = image.ToBitmap();
+                        Frame = image.Resize(new OpenCvSharp.Size(Properties.Settings.Default.DisplayFrameWidth,
+                                                                  Properties.Settings.Default.DisplayFrameHeight)).ToBitmap();
+                        //Frame = image.ToBitmap();
 
                         Thread.Sleep(Properties.Settings.Default.DisplayInterval);
                     }
