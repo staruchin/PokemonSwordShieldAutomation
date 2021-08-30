@@ -19,6 +19,7 @@ namespace Sta.AutomationMacro
             //Add<SeekPokemonMacro>(param);
             Add<RapidTimeTravelMacro>(param);
             Add<ThreeDaysTravelMacro>(param);
+            Add<MashAButtonMacro>(param);
         }
 
         private void Add<T>(MacroParameter param) where T : AbstractMacro, new()

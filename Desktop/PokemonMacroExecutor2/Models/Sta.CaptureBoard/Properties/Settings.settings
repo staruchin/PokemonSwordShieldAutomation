@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="CaptureFrameWidth" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">1920</Value>
+      <Value Profile="(Default)">1280</Value>
     </Setting>
     <Setting Name="CaptureFrameHeight" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">1080</Value>
+      <Value Profile="(Default)">720</Value>
     </Setting>
     <Setting Name="CaptureFps" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">60</Value>

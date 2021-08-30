@@ -31,7 +31,7 @@ namespace Sta.Modules.MacroExecutor.ViewModels
         public ReactiveCommand ThreeDaysTravelCommand { get; }
         public ReactiveCommand ThreeDaysTravelNextCommand { get; }
         public ReactiveProperty<bool> CanGoNextThreeDays { get; }
-
+        public ReactiveCommand MashAButtonCommand { get; }
 
         public ReactiveCommand CancelCommand { get; }
         public ReactiveCommand SaveImageCommand { get; }
@@ -69,6 +69,7 @@ namespace Sta.Modules.MacroExecutor.ViewModels
                     wait.Set();
                 }
             });
+            MashAButtonCommand = CreateExecuteMacroCommand<MashAButtonMacro>();
 
             IsCanceling = cancelRequest.ObserveProperty(c => c.IsCancellationRequested).ToReactiveProperty().AddTo(Disposables);
             CancelCommand = new[] { IsBusy, IsCanceling }.CombineLatest(x => x[0] && !x[1]).ToReactiveCommand().AddTo(Disposables);

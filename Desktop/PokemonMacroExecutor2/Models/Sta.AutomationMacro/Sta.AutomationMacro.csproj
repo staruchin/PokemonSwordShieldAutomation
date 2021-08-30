@@ -59,6 +59,7 @@
     <Compile Include="Macro\AbstractMacro.cs" />
     <Compile Include="Macro\BattleMaxRaidMacro.cs" />
     <Compile Include="Macro\DrawLotoIdMacro.cs" />
+    <Compile Include="Macro\MashAButtonMacro.cs" />
     <Compile Include="Macro\ThreeDaysTravelMacro.cs" />
     <Compile Include="Macro\RapidTimeTravelMacro.cs" />
     <Compile Include="Macro\SeekPokemonMacro.cs" />
