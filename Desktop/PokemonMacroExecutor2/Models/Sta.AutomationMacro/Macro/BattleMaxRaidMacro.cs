@@ -38,9 +38,9 @@ namespace Sta.AutomationMacro.Macro
                 if (!m_isLightEmitted)
                 {
                     Controller.PressAndRelease(ButtonType.A, 50, 1000);     // 巣穴を選択
-                    Controller.PressAndRelease(ButtonType.A, 50, 1000);     // かたまり＞はい選択
+                    Controller.PressAndRelease(ButtonType.A, 50, 1100);     // かたまり＞はい選択
                     CancellationRequest.ThrowIfCancellationRequested();
-                    Controller.PressAndRelease(ButtonType.A, 50, 2800);     // レポート＞はい選択
+                    Controller.PressAndRelease(ButtonType.A, 50, 2500);     // レポート＞はい選択
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 書き残した
                     Controller.PressAndRelease(ButtonType.B, 50, 1000);     // 投げ込んだ
                     m_isLightEmitted = true;
@@ -62,7 +62,6 @@ namespace Sta.AutomationMacro.Macro
                     Controller.PressAndRelease(ButtonType.A, 50, 250);
                     Controller.PressAndRelease(ButtonType.A, 50, 250);
                     Controller.PressAndRelease(ButtonType.A, 50, 250);
-                    Controller.PressAndRelease(ButtonType.A, 50, 50);
 
                     if (IsWon())
                     {
@@ -75,7 +74,7 @@ namespace Sta.AutomationMacro.Macro
 
                     if (IsLost())
                     {
-                        Thread.Sleep(7000);
+                        Thread.Sleep(10000);
                         break;
                     }
                 }

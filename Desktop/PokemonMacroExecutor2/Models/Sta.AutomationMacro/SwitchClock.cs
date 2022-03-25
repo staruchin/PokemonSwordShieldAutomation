@@ -42,19 +42,14 @@ namespace Sta.AutomationMacro
         public void IncreaseOneDayFromGameScreen()
         {
             Controller.PressAndRelease(ButtonType.Home, 50, 800);
+            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
+            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(DPadCommand.Down, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(DPadCommand.Right, 50, 50);
             Controller.PressAndRelease(ButtonType.A, 50, 50);
             Controller.PressAndRelease(DPadCommand.Down, 2000, 50);
             Controller.PressAndRelease(ButtonType.A, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Down, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Down, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Down, 50, 50);
-            Controller.PressAndRelease(DPadCommand.Down, 50, 50);
+            Controller.PressAndRelease(DPadCommand.Down, 700, 50);
             Controller.PressAndRelease(ButtonType.A, 50, 200);
             Controller.PressAndRelease(DPadCommand.Down, 50, 50);
             Controller.PressAndRelease(DPadCommand.Down, 50, 50);
@@ -78,20 +73,20 @@ namespace Sta.AutomationMacro
 
             var nextDate = DateTime.Value + OneDay;
 
-            Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 日を変更
+            Controller.PressAndRelease(DPadCommand.Up, 40, 40); // 日を変更
 
             if (nextDate.Day == 1)
             {
-                Controller.PressAndRelease(DPadCommand.Left, 50, 50);
-                Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 月を変更
+                Controller.PressAndRelease(DPadCommand.Left, 40, 40);
+                Controller.PressAndRelease(DPadCommand.Up, 40, 40); // 月を変更
 
                 if (nextDate.Month == 1)
                 {
-                    Controller.PressAndRelease(DPadCommand.Left, 50, 50);
+                    Controller.PressAndRelease(DPadCommand.Left, 40, 40);
 
                     if (nextDate.Year <= EndOfDays.Year)
                     {
-                        Controller.PressAndRelease(DPadCommand.Up, 50, 50); // 年を変更(+1)
+                        Controller.PressAndRelease(DPadCommand.Up, 40, 40); // 年を変更(+1)
                     }
                     else
                     {
@@ -99,16 +94,16 @@ namespace Sta.AutomationMacro
                         backToStartOfDays = true;
                     }
 
-                    Controller.PressAndRelease(ButtonType.A, 50, 50);
+                    Controller.PressAndRelease(ButtonType.A, 40, 40);
                 }
 
-                Controller.PressAndRelease(ButtonType.A, 50, 50);
+                Controller.PressAndRelease(ButtonType.A, 40, 40);
             }
 
-            Controller.PressAndRelease(ButtonType.A, 50, 50);
-            Controller.PressAndRelease(ButtonType.A, 50, 50);
-            Controller.PressAndRelease(ButtonType.A, 50, 50);
-            Controller.PressAndRelease(ButtonType.A, 50, 150); // OK
+            Controller.PressAndRelease(ButtonType.A, 40, 40);
+            Controller.PressAndRelease(ButtonType.A, 40, 40);
+            Controller.PressAndRelease(ButtonType.A, 40, 40);
+            Controller.PressAndRelease(ButtonType.A, 40, 150); // OK
 
             if (!backToStartOfDays)
             {
